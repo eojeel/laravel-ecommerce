@@ -1,26 +1,24 @@
 <script setup>
-import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/inertia-vue3';
+import { ref } from "vue";
 import Sidebar from "@/Components/Sidebar.vue";
+import NavBar from "@/Components/NavBar.vue";
 
+const sidebarStatus = ref(true);
+
+function toggleSidebar()
+{
+    sidebarStatus.value = !sidebarStatus.value;
+}
 </script>
 
 <template>
-        <div class="min-h-screen flex">
-            <sidebar />
+        <div class="min-h-screen flex bg-gray-100">
+            <sidebar :class="{'-ml-[200px]' : !sidebarStatus}"/>
 
             <div class="flex-1">
                 <!-- Page Heading -->
-                <header class="h-8 shadow bg-white" v-if="$slots.header">
-                    <div class="max-w-7xl">
-                        <slot name="header" />
-                    </div>
-                </header>
+                <NavBar @toggle-sidebar="toggleSidebar"/>
                 <!-- Page Content -->
                 <main class="p-6">
                     <slot />
