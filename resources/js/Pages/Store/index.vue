@@ -2,7 +2,12 @@
 import { defineStore } from 'pinia'
 
 const store = defineStore( {
-    state: {},
+    state: {
+        user: {
+            token: null,
+            date: {}
+        }
+    },
     getters: {},
     actions: {}
 });
