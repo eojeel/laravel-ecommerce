@@ -1,3 +1,6 @@
+<script setup>
+import { BuildingStorefrontIcon } from '@heroicons/vue/24/solid';
+</script>
 <template>
-    <img :src="'../storage/images/ClassicCollection.png'">
+    <BuildingStorefrontIcon />
 </template>
