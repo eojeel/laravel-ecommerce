@@ -32,5 +32,4 @@ Route::get('/products', function () {
     return Inertia::render('Products');
 })->middleware(['auth', 'verified'])->name('Products');
 
-
 require __DIR__.'/auth.php';

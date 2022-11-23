@@ -1,13 +1,9 @@
 <script>
 import { defineStore } from 'pinia'
+import state from '../../state.js';
 
 const store = defineStore( {
-    state: {
-        user: {
-            token: null,
-            date: {}
-        }
-    },
+    state,
     getters: {},
     actions: {}
 });

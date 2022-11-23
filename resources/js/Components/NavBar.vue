@@ -2,6 +2,7 @@
 import { Bars3Icon, ArrowLeftOnRectangleIcon, UserCircleIcon } from '@heroicons/vue/24/outline';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import DropdownLink from '../Components/DropdownLink.vue'
 
 const emit = defineEmits( ['toggle-sidebar']);
 </script>
@@ -14,7 +15,7 @@ const emit = defineEmits( ['toggle-sidebar']);
                 <div>
                     <MenuButton class="flex items-center text-gray-700">
                         <img src="https://randomuser.me/api/portraits/men/15.jpg" class="rounded-full w-10">
-                        <div class="text-small px-2">Joe Lee</div>
+                        <div class="text-small px-2">{{ $page.props.auth.user.name }}</div>
                         <ChevronDownIcon class="h-5 w-5 text-indigo-200 hover:text-indigo-100" aria-hidden="true" />
                     </MenuButton>
                 </div>
@@ -42,7 +43,9 @@ const emit = defineEmits( ['toggle-sidebar']);
                             ]">
                                 <ArrowLeftOnRectangleIcon :active="active" class="mr-2 h-5 w-5 text-indigo-400"
                                     aria-hidden="true" />
-                                Logout
+                                    <DropdownLink :href="route('logout')" method="post" as="button">
+                                            Log Out
+                                        </DropdownLink>
                             </button>
                             </MenuItem>
                         </div>
