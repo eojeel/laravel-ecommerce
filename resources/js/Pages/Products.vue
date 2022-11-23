@@ -1,12 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import { storeToRefs } from 'pinia';
+import  store  from '../store';
 import { ref, computed, onMounted } from 'vue';
+
 
 const perPage = ref(10)
 const search = ref('');
 const products = computed(() => store.state.products )
+
 
 onMounted(() => {
     getProducts();

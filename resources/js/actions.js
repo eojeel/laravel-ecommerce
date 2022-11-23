@@ -1,7 +1,7 @@
-import axios from "axios";
+import axiosClient from "axios"
 
-export function getProducs({commit}) {
-    return axios.get('products')
+export function getProducts({commit}) {
+    return axiosClient.get('products')
     .then(res => {
 
     })
