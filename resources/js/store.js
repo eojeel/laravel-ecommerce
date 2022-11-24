@@ -3,12 +3,11 @@ import state from './state'
 import * as actions from './actions'
 import * as mutations from './mutations'
 
-const store =  defineStore({
+export const useStore =  defineStore({
+    id: 'store',
     state: () => {
     return state
     },
     getters: {},
     actions: {}
 })
-
-export default store

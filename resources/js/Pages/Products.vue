@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import  store  from '../store';
+import  useStore  from '../store';
 import { ref, computed, onMounted } from 'vue';
 
 
@@ -11,11 +11,11 @@ const products = computed(() => store.state.products )
 
 
 onMounted(() => {
-    getProducts();
+    getProducts();cl
 })
 
 function getProducts() {
-    store.dispatch('getProducts')
+    useStore.dispatch('getProducts')
 }
 
 

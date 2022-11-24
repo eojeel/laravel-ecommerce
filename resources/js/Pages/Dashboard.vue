@@ -1,6 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import  { useStore }  from '../store';
+
+const store = useStore();
 </script>
 
 <template>
@@ -11,6 +14,7 @@ import { Head } from '@inertiajs/inertia-vue3';
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
+                {{ store.name }}
             </h2>
         </template>
 
