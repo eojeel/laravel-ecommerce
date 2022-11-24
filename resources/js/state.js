@@ -13,5 +13,4 @@ export default {
       limit: null,
       total: null
     },
-    name: 'Eduardo',
   }
