@@ -2,11 +2,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Spinner from '@/Components/Spinner.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import { useStore } from '../store';
 import { ref, computed, onMounted } from 'vue';
+import { useStore } from '@/store';
+import { PRODUCTS_PER_PAGE } from '@/constants';
+import { LinkIcon } from '@heroicons/vue/24/solid';
 const store = useStore();
 
-const perPage = ref(10)
+const perPage = ref(PRODUCTS_PER_PAGE)
 const search = ref('');
 const products = computed(() => store.products)
 
@@ -14,12 +16,19 @@ onMounted(() => {
     store.getProducts()
 })
 
+function getForPage(e, link) {
+    if(!link.url || link.active)
+    {
+        return;
+    }
+    store.getProducts(link.url)
+}
+
 </script>
 
 <template>
 
     <Head title="Products" />
-
     <AuthenticatedLayout>
         <div class="flex items-center justify-between mb-3">
             <h1 class="text-3xl font-semibold">Products</h1>
@@ -65,7 +74,7 @@ onMounted(() => {
                         <tr v-for="product of products.data">
                             <td class="border-b p-2">{{ product.id }}</td>
                             <td class="border-b p-2">
-                                <img class="w-16" @src="product.image" :alt="product.title">
+                                <img class="w-16" :src="product.image_url" :alt="product.title">
                             </td>
                             <td class="border-b p-2 m-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">{{
                                     product.title
@@ -75,6 +84,26 @@ onMounted(() => {
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="flex justify-between items-center mt-5">
+                    <span>
+                        Showing From {{ products.from}} To {{ products.to }}
+                    </span>
+                    <nav v-if="products.total > products.limit"
+                        class="relative z-0 inline-flex justify-center rounded-md shadown-sm -space-x-pn"
+                        aria-label="Pagination">
+                        <a v-for="(link, i) of products.links" :key="i" :disabled="!link.url" :href="link.url"
+                            @click.prevent="getForPage($event, link)" aria-current="page"
+                            class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
+                            :class="[
+                                link.active
+                                    ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                                    : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
+                                i === 0 ? 'rounded-lg-md' : '',
+                                i === products.links.length - 1 ? 'rounded-r-md' : ''
+                            ]" v-html="link.label"></a>
+                    </nav>
+                </div>
             </template>
         </div>
     </AuthenticatedLayout>
