@@ -5,16 +5,25 @@ import { Head } from '@inertiajs/inertia-vue3';
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from '@/store';
 import { PRODUCTS_PER_PAGE } from '@/constants';
-import { LinkIcon } from '@heroicons/vue/24/solid';
+import { mapActions, mapState } from 'pinia';
+
 const store = useStore();
 
 const perPage = ref(PRODUCTS_PER_PAGE)
 const search = ref('');
-const products = computed(() => store.products)
+const products = computed(() => store.products);
 
 onMounted(() => {
-    store.getProducts()
+    store.getProducts();
 })
+
+function getProduct(url = null) {
+    store.getProducts(
+    url,
+    search.value,
+    perPage.value
+)
+}
 
 function getForPage(e, link) {
     if(!link.url || link.active)
@@ -23,11 +32,9 @@ function getForPage(e, link) {
     }
     store.getProducts(link.url)
 }
-
 </script>
 
 <template>
-
     <Head title="Products" />
     <AuthenticatedLayout>
         <div class="flex items-center justify-between mb-3">
@@ -42,7 +49,7 @@ function getForPage(e, link) {
             <div class="flex justify-between border-b-2 pb-3">
                 <div class="flex items-center">
                     <span class="whitespace-nowrap mr-3">Per Page</span>
-                    <select @change="getProducts(null)" v-model="perPage"
+                    <select @change="getProduct(null)" v-model="perPage"
                         class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 
                         <option value="5">5</option>
@@ -53,8 +60,8 @@ function getForPage(e, link) {
                     </select>
                 </div>
                 <div>
-                    <input v-model="search" @change="getProducts(null)"
-                        class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    <input v-model="search" @change="getProduct(null)"
+                        class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 placeholder-white"
                         placeholder="Type to Search Products">
                 </div>
             </div>

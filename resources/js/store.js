@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia'
+import { defineStore, mapActions } from 'pinia'
 import state from './state'
 /** import * as actions from './actions' **/
 /** import * as mutations from './mutations'**/
 import axiosClient from "axios"
 
-export const useStore =  defineStore({
+export const useStore = defineStore({
     id: 'store',
     state: () => {
     return state
@@ -12,10 +12,12 @@ export const useStore =  defineStore({
     getters: {},
     mutations: {},
     actions: {
-        async getProducts(url = null) {
+        async getProducts(url = null, search = '', per_page = 10) {
             this.setProducts(true)
             url = url || '/api/products';
-            return axiosClient.get(url)
+            return axiosClient.get(url, {
+                params: {search: search, per_page: per_page}
+            })
             .then(res => {
                 this.setProducts(false, res.data)
             })
