@@ -12,7 +12,7 @@ export const useStore = defineStore({
     getters: {},
     mutations: {},
     actions: {
-        async getProducts(url = null, sortField, sortDirection, search = '', per_page = 10) {
+        async getProducts(url = null, search = '', per_page = 10, sortField, sortDirection) {
             this.setProducts(true)
             url = url || '/api/products';
             return axiosClient.get(url, {

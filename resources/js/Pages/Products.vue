@@ -23,10 +23,10 @@ onMounted(() => {
 function getProduct(url = null) {
     store.getProducts(
     url,
-    sortField.value,
-    sortDirection.value,
     search.value,
-    perPage.value)
+    perPage.value,
+    sortField.value,
+    sortDirection.value)
 }
 
 function getForPage(e, link) {
@@ -39,14 +39,17 @@ function getForPage(e, link) {
 
 function sortProducts(field)
 {
-    if(sortField !== field) {
-        sortField.value = field;
-        sortDirection.value = 'asc';
-    } else if(sortDirection.value = 'asc') {
-        sortDirection.value = 'desc';
+    if (field === sortField.value) {
+    if (sortDirection.value === 'desc') {
+      sortDirection.value = 'asc'
     } else {
-        sortDirection.value = 'asc'
+      sortDirection.value = 'desc'
     }
+  } else {
+    sortField.value = field;
+    sortDirection.value = 'asc'
+  }
+  getProduct();
 }
 </script>
 
@@ -81,19 +84,24 @@ function sortProducts(field)
                         placeholder="Type to Search Products">
                 </div>
             </div>
-            <Spinner v-if="products.loading" />
-            <template v-else>
                 <table class="table-auto w-full">
                     <thead>
                         <tr>
-                            <TableHeader @click="sortProducts()" field="id" :sort-field="sortField" :sort-direction="sortDirection">ID</TableHeader>
-                            <TableHeader @click="sortProducts()" field="" :sort-field="sortField" :sort-direction="sortDirection">Image</TableHeader>
-                            <TableHeader @click="sortProducts()" field="title" :sort-field="sortField" :sort-direction="sortDirection">Title</TableHeader>
-                            <TableHeader @click="sortProducts()" field="price" :sort-field="sortField" :sort-direction="sortDirection">Price</TableHeader>
-                            <TableHeader @click="sortProducts()" field="updated_at" :sort-field="sortField" :sort-direction="sortDirection">Last Updated At</TableHeader>
+                            <TableHeader field="id" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('id')">ID</TableHeader>
+                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts()">Image</TableHeader>
+                            <TableHeader field="title" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('title')">Title</TableHeader>
+                            <TableHeader field="price" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('price')">Price</TableHeader>
+                            <TableHeader field="updated_at" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('updated_at')">Last Updated At</TableHeader>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="products.loading">
+                        <tr>
+                            <td colspan="5">
+                                <Spinner />
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-else>
                         <tr v-for="product of products.data">
                             <td class="border-b p-2">{{ product.id }}</td>
                             <td class="border-b p-2">
@@ -108,7 +116,7 @@ function sortProducts(field)
                     </tbody>
                 </table>
 
-                <div class="flex justify-between items-center mt-5">
+                <div v-if="!products.loading" class="flex justify-between items-center mt-5">
                     <span>
                         Showing From {{ products.from}} To {{ products.to }}
                     </span>
@@ -127,7 +135,6 @@ function sortProducts(field)
                             ]" v-html="link.label"></a>
                     </nav>
                 </div>
-            </template>
         </div>
     </AuthenticatedLayout>
 </template>

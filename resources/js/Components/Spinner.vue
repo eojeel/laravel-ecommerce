@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center py-8">
+    <div class="flex flex-col items-center py-8 mt-4">
       <svg
         class="animate-spin -ml-1 h-8 w-8 text-gray-700"
         xmlns="http://www.w3.org/2000/svg"
