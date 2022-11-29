@@ -12,11 +12,16 @@ export const useStore = defineStore({
     getters: {},
     mutations: {},
     actions: {
-        async getProducts(url = null, search = '', per_page = 10) {
+        async getProducts(url = null, sortField, sortDirection, search = '', per_page = 10) {
             this.setProducts(true)
             url = url || '/api/products';
             return axiosClient.get(url, {
-                params: {search: search, per_page: per_page}
+                params: {
+                    search: search,
+                    per_page: per_page,
+                    sort_field: sortField,
+                    sort_direction: sortDirection
+                }
             })
             .then(res => {
                 this.setProducts(false, res.data)
