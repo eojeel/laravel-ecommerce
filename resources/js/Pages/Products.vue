@@ -88,7 +88,7 @@ function sortProducts(field)
                     <thead>
                         <tr>
                             <TableHeader field="id" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('id')">ID</TableHeader>
-                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts()">Image</TableHeader>
+                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection">Image</TableHeader>
                             <TableHeader field="title" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('title')">Title</TableHeader>
                             <TableHeader field="price" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('price')">Price</TableHeader>
                             <TableHeader field="updated_at" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('updated_at')">Last Updated At</TableHeader>
