@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Spinner from '@/Components/Spinner.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import { ref, computed, onMounted } from 'vue';
+import  TableHeader  from '@/Components/Table/TableHeader.vue'
 import { useStore } from '@/store';
 import { PRODUCTS_PER_PAGE } from '@/constants';
 import { mapActions, mapState } from 'pinia';
@@ -12,6 +13,8 @@ const store = useStore();
 const perPage = ref(PRODUCTS_PER_PAGE)
 const search = ref('');
 const products = computed(() => store.products);
+const sortField = ref('updated_at');
+const sortDirection = ref('desc');
 
 onMounted(() => {
     store.getProducts();
@@ -20,9 +23,10 @@ onMounted(() => {
 function getProduct(url = null) {
     store.getProducts(
     url,
+    sortField.value,
+    sortDirection.value,
     search.value,
-    perPage.value
-)
+    perPage.value)
 }
 
 function getForPage(e, link) {
@@ -31,6 +35,18 @@ function getForPage(e, link) {
         return;
     }
     store.getProducts(link.url)
+}
+
+function sortProducts(field)
+{
+    if(sortField !== field) {
+        sortField.value = field;
+        sortDirection.value = 'asc';
+    } else if(sortDirection.value = 'asc') {
+        sortDirection.value = 'desc';
+    } else {
+        sortDirection.value = 'asc'
+    }
 }
 </script>
 
@@ -53,7 +69,7 @@ function getForPage(e, link) {
                         class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 
                         <option value="5">5</option>
-                        <option value="10">10</option>#
+                        <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
@@ -70,11 +86,11 @@ function getForPage(e, link) {
                 <table class="table-auto w-full">
                     <thead>
                         <tr>
-                            <th class="border-b-2 p-2 text-left">ID</th>
-                            <th class="border-b-2 p-2 text-left">Image</th>
-                            <th class="border-b-2 p-2 text-left">Title</th>
-                            <th class="border-b-2 p-2 text-left">Price</th>
-                            <th class="border-b-2 p-2 text-left">Last Updated At</th>
+                            <TableHeader @click="sortProducts()" field="id" :sort-field="sortField" :sort-direction="sortDirection">ID</TableHeader>
+                            <TableHeader @click="sortProducts()" field="" :sort-field="sortField" :sort-direction="sortDirection">Image</TableHeader>
+                            <TableHeader @click="sortProducts()" field="title" :sort-field="sortField" :sort-direction="sortDirection">Title</TableHeader>
+                            <TableHeader @click="sortProducts()" field="price" :sort-field="sortField" :sort-direction="sortDirection">Price</TableHeader>
+                            <TableHeader @click="sortProducts()" field="updated_at" :sort-field="sortField" :sort-direction="sortDirection">Last Updated At</TableHeader>
                         </tr>
                     </thead>
                     <tbody>
