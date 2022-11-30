@@ -29,7 +29,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/products', function () {
-    return Inertia::render('Products');
+    return Inertia::render('Products/Products');
 })->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
