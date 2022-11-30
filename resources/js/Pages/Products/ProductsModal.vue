@@ -9,20 +9,20 @@ import {
 } from '@headlessui/vue'
 
 const props = defineProps({
-    modalVal: Boolean
+    modelValue: Boolean
 })
 
 
 const show = computed({
     get() {
-        return props.modalVal
+        return props.modelValue
     },
     set(value) {
-        emit('update:modalVal', value)
+        emit('update:modelValue', value)
     }
 })
 
-const emit = defineEmits(['update:modalVal'])
+const emit = defineEmits(['update:modelValue'])
 
 function closeModal() {
     show.value = false
@@ -30,7 +30,6 @@ function closeModal() {
 </script>
 
 <template>
-    {{ modalVal }}
     <TransitionRoot appear :show="show" as="template">
         <Dialog as="div" @close="closeModal" class="relative z-10">
             <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"

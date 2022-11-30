@@ -24,7 +24,6 @@ function DisplayProductModal()
                 Add New product
             </button>
         </div>
-        {{ ProductModal }}
         <ProductsModal v-model="ProductModal" />
         <ProductsTable/>
     </AuthenticatedLayout>
