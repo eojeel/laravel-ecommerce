@@ -6,6 +6,13 @@ import ProductsTable from '@/Pages/Products/ProductsTable.vue'
 import ProductsModal from '@/Pages/Products/ProductsModal.vue'
 
 const ProductModal = ref(false)
+const productModel = ref({
+    id: '',
+    title: '',
+    image: '',
+    description: '',
+    price: '',
+});
 
 function DisplayProductModal()
 {
@@ -24,7 +31,7 @@ function DisplayProductModal()
                 Add New product
             </button>
         </div>
-        <ProductsModal v-model="ProductModal" />
+        <ProductsModal v-model="ProductModal" :product="productModel" />
         <ProductsTable/>
     </AuthenticatedLayout>
 </template>
