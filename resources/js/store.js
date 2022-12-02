@@ -3,6 +3,7 @@ import state from './state'
 /** import * as actions from './actions' **/
 /** import * as mutations from './mutations'**/
 import axiosClient from "axios"
+import axios from 'axios'
 
 export const useStore = defineStore({
     id: 'store',
@@ -12,7 +13,7 @@ export const useStore = defineStore({
     getters: {},
     mutations: {},
     actions: {
-        async getProducts(url = null, sortField, sortDirection, search = '', per_page = 10) {
+        getProducts(url = null, search = '', per_page = 10, sortField, sortDirection) {
             this.setProducts(true)
             url = url || '/api/products';
             return axiosClient.get(url, {
@@ -43,6 +44,35 @@ export const useStore = defineStore({
                 }
             }
             this.products.loading = loading;
-        }
-    },
+        },
+        createProduct(product) {
+            if(product.image instanceof File)
+            {
+                const form = new FormData();
+                form.append('image', product.image);
+                form.append('title', product.title);
+                form.append('description', product.description);
+                form.append('price', product.price);
+                product = form;
+            }
+            return axios.post('/api/products', product)
+        },
+        updateProduct(product) {
+            const id = product.id
+            if(product.image instanceof File)
+            {
+                const form = new FormData();
+                form.append('id', product.id);
+                form.append('image', product.image);
+                form.append('title', product.title);
+                form.append('description', product.description);
+                form.append('price', product.price);
+                form.append('_method', 'PUT');
+                product = form;
+            } else {
+                product._method = 'PUT';
+            }
+            return axios.post(`/api/products${id}`, product)
+        },
+    }
 })

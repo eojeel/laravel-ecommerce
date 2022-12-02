@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\UploadFile;
+use Illuminate\Support\Facades\URL;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ProductListResource;
 
 class ProductController extends Controller
@@ -38,7 +41,23 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        return new ProductResource(Product::create($request->validated()));
+        $attributes = $request->validated();
+        $attributes['created_by'] = $request->user()->id;
+        $attributes['updated_by'] = $request->user()->id;
+
+        /** @var UploadFile $image  */
+        $image = $attributes['image'] ?? null;
+        if($image)
+        {
+            $relativePath = $this->saveImage($image);
+            $attributes['image'] = URL::to(Storage::url($relativePath));
+            $attributes['image_mine_type'] = $image->getMimeType();
+            $attributes['image_size'] = $image->getSize();
+        }
+
+        $product = Product::create($attributes);
+
+        return new ProductResource($product);
     }
 
     /**
@@ -77,5 +96,13 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->noContent();
+    }
+
+
+    private function saveImage(UploadedFile $image)
+    {
+        $relativePath = "images/{$this->id}/{$image->hashName()}";
+        Storage::putFileAs('public', $image, $relativePath);
+        return $relativePath;
     }
 }
