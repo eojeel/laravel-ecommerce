@@ -2,6 +2,7 @@
 import Spinner from '@/Components/Spinner.vue';
 import { ref, computed, onMounted } from 'vue';
 import  TableHeader  from '@/Components/Table/TableHeader.vue'
+import TableMenu from '@/Components/Table/TableMenu.vue'
 import { useStore } from '@/store';
 import { PRODUCTS_PER_PAGE } from '@/constants';
 
@@ -79,6 +80,7 @@ function sortProducts(field)
                             <TableHeader field="title" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('title')">Title</TableHeader>
                             <TableHeader field="price" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('price')">Price</TableHeader>
                             <TableHeader field="updated_at" :sort-field="sortField" :sort-direction="sortDirection" @click="sortProducts('updated_at')">Last Updated At</TableHeader>
+                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection">Actions</TableHeader>
                         </tr>
                     </thead>
                     <tbody v-if="products.loading">
@@ -99,6 +101,9 @@ function sortProducts(field)
                             }}</td>
                             <td class="border-b p-2">{{ product.price }}</td>
                             <td class="border-b p-2">{{ product.updated_at }}</td>
+                            <td>
+                                <TableMenu v-bind:product="product"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
