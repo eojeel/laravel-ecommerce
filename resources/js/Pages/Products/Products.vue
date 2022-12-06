@@ -5,18 +5,33 @@ import { Head } from '@inertiajs/inertia-vue3';
 import ProductsTable from '@/Pages/Products/ProductsTable.vue'
 import ProductsModal from '@/Pages/Products/ProductsModal.vue'
 
-const ProductModal = ref(false)
-const productModel = ref({
+const EMPTY_OBJECT = {
     id: '',
     title: '',
     image: '',
     description: '',
     price: '',
-});
+    published: '',
+}
+
+const ProductModal = ref(false)
+const productModel = ref({...EMPTY_OBJECT});
 
 function DisplayProductModal()
 {
     ProductModal.value = true;
+}
+
+function edit(product)
+{
+    productModel.value = product;
+    DisplayProductModal()
+}
+
+function modalClose()
+{
+    ProductModal.value = {...EMPTY_OBJECT}
+    ProductModal.value = false;
 }
 </script>
 
@@ -31,7 +46,7 @@ function DisplayProductModal()
                 Add New product
             </button>
         </div>
-        <ProductsModal v-model="ProductModal" :product="productModel" />
-        <ProductsTable/>
+        <ProductsModal v-model="ProductModal" :product="productModel" @close="modalClose"/>
+        <ProductsTable @display-modal="edit"/>
     </AuthenticatedLayout>
 </template>

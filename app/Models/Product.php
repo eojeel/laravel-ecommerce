@@ -10,6 +10,8 @@ use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
+    protected $guarded = [];
+
     use HasFactory;
     use HasSlug;
     use SoftDeletes;

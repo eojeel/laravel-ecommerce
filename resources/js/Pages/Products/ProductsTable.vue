@@ -14,6 +14,8 @@ const products = computed(() => store.products);
 const sortField = ref('updated_at');
 const sortDirection = ref('desc');
 
+const emit = defineEmits(['display-modal']);
+
 onMounted(() => {
     store.getProducts();
 })
@@ -48,6 +50,14 @@ function sortProducts(field)
     sortDirection.value = 'asc'
   }
   getProduct();
+}
+
+function editProduct(product)
+{
+    store.getProduct(product.id)
+    .then(({data}) => {
+        emit('display-modal', data);
+    })
 }
 </script>
 
@@ -102,7 +112,7 @@ function sortProducts(field)
                             <td class="border-b p-2">{{ product.price }}</td>
                             <td class="border-b p-2">{{ product.updated_at }}</td>
                             <td>
-                                <TableMenu v-bind:product="product"/>
+                                <TableMenu v-bind:product="product" @edit-product="editProduct"/>
                             </td>
                         </tr>
                     </tbody>

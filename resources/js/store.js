@@ -31,6 +31,9 @@ export const useStore = defineStore({
                 this.setProducts(false)
             })
         },
+        getProduct(id) {
+            return axiosClient.get(`/api/products/${id}`)
+        },
         setProducts(loading, response = null) {
             if(response) {
                 this.products = {
@@ -67,12 +70,13 @@ export const useStore = defineStore({
                 form.append('title', product.title);
                 form.append('description', product.description);
                 form.append('price', product.price);
+                form.append('published', product.published);
                 form.append('_method', 'PUT');
                 product = form;
             } else {
                 product._method = 'PUT';
             }
-            return axios.post(`/api/products${id}`, product)
+            return axios.post(`/api/products/${id}`, product)
         },
         deleteProduct(id) {
             return axios.delete(`/api/products/${id}`)
