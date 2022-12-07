@@ -49,6 +49,7 @@ onUpdated(() => {
         image: props.product.image,
         description: props.product.description,
         price: props.product.price,
+        published: props.product.published,
     }
 })
 

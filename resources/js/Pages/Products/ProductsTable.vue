@@ -14,6 +14,8 @@ const products = computed(() => store.products);
 const sortField = ref('updated_at');
 const sortDirection = ref('desc');
 
+const emit = defineEmits(['display-modal']);
+
 onMounted(() => {
     store.getProducts();
 })
@@ -49,10 +51,18 @@ function sortProducts(field)
   }
   getProduct();
 }
+
+function editProduct(product)
+{
+    store.getProduct(product.id)
+    .then(({data}) => {
+        emit('display-modal', data);
+    })
+}
 </script>
 
 <template>
-    <div class="bg-white p-4 round-lg shadow">
+    <div class="bg-white p-4 round-lg shadow animate-fade-in-down">
             <div class="flex justify-between border-b-2 pb-3">
                 <div class="flex items-center">
                     <span class="whitespace-nowrap mr-3">Per Page</span>
@@ -91,7 +101,7 @@ function sortProducts(field)
                         </tr>
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="product of products.data">
+                        <tr v-for="(product, index) of products.data" class="animate-fade-in-down" :style="{'animation-delay': '${index*0.0.5}s'}">
                             <td class="border-b p-2">{{ product.id }}</td>
                             <td class="border-b p-2">
                                 <img class="w-16" :src="product.image_url" :alt="product.title">
@@ -102,7 +112,7 @@ function sortProducts(field)
                             <td class="border-b p-2">{{ product.price }}</td>
                             <td class="border-b p-2">{{ product.updated_at }}</td>
                             <td>
-                                <TableMenu v-bind:product="product"/>
+                                <TableMenu v-bind:product="product" @edit-product="editProduct"/>
                             </td>
                         </tr>
                     </tbody>
