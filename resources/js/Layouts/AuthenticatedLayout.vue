@@ -31,7 +31,7 @@ function sidebarOpen() {
         <div class="min-h-screen flex bg-gray-100">
             <sidebar :class="{'-ml-[200px]' : !sidebarStatus}"/>
 
-            <div class="flex-1">
+            <div class="flex-auto">
                 <!-- Page Heading -->
                 <NavBar @toggle-sidebar="toggleSidebar"/>
                 <!-- Page Content -->

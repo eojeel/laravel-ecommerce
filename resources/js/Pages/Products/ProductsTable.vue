@@ -95,7 +95,7 @@ function editProduct(product)
                     </thead>
                     <tbody v-if="products.loading">
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <Spinner />
                             </td>
                         </tr>

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\URL;
@@ -45,12 +46,12 @@ class ProductController extends Controller
         $attributes['created_by'] = $request->user()->id;
         $attributes['updated_by'] = $request->user()->id;
 
-        /** @var UploadFile $image  */
-        $image = $attributes['image'] ?? null;
-        if($image)
-        {
-            $this->uploadImate($image, $attributes);
-        }
+        /** @var UploadedFile $image  */
+        $image = $request->image ?? null;
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $attributes['image'] = URL::to(Storage::url($relativePath));
+}
 
         $product = Product::create($attributes);
 
@@ -82,8 +83,7 @@ class ProductController extends Controller
 
         /** @var UploadedFile $image  */
         $image = $request->image ?? null;
-        if($image)
-        {
+        if($image) {
             $relativePath = $this->saveImage($image);
             $attributes['image'] = URL::to(Storage::url($relativePath));
 
