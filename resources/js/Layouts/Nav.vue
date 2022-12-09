@@ -1,15 +1,23 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3';
+import { ref } from "vue";
 import ResponsiveNavLinkVue from '@/Components/ResponsiveNavLink.vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
+
+const emit = defineEmits(['toggle-sidebar']);
+const mobileMenuOpen = ref(false);
+
+function toggleResponsieNav() {
+    mobileMenuOpen.value = !mobileMenuOpen.value;
+}
 
 
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
     mobileMenuOpen: Boolean
-    })
+})
 </script>
 
 <template>
@@ -18,7 +26,7 @@ defineProps({
             <a href="/src" class="block py-navbar-item pl-5"> Logo </a>
         </div>
         <!-- Responsive Menu -->
-        <ResponsiveNavLinkVue />
+        <ResponsiveNavLinkVue :mobileMenuOpen="mobileMenuOpen" />
         <!--/ Responsive Menu -->
         <nav class="hidden md:block">
             <ul class="grid grid-flow-col">
@@ -49,25 +57,26 @@ defineProps({
                     </a>
                 </li>
                 <li>
-                <Menu>
-                    <MenuButton class="cursor-pointer flex items-center py-navbar-item px-navbar-item pr-5 hover:bg-slate-900">
-                        <span class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <Menu>
+                        <MenuButton
+                            class="cursor-pointer flex items-center py-navbar-item px-navbar-item pr-5 hover:bg-slate-900">
+                            <span class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                My Account
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
                             </svg>
-                            My Account
-                        </span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
                         </MenuButton>
-                <MenuItems class="absolute z-10 bg-slate-800 py-2 w-48">
-                        <MenuItem>
+                        <MenuItems class="absolute z-10 bg-slate-800 py-2 w-48">
+                            <MenuItem>
                             <a href="/src/profile.html" class="flex px-3 py-2 hover:bg-slate-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -76,8 +85,8 @@ defineProps({
                                 </svg>
                                 My Profile
                             </a>
-                        </MenuItem>
-                        <MenuItem>
+                            </MenuItem>
+                            <MenuItem>
                             <a href="/src/watchlist.html"
                                 class="flex items-center justify-between px-3 py-2 hover:bg-slate-900">
                                 <div class="flex items-center">
@@ -93,8 +102,8 @@ defineProps({
                                     x-text="$store.header.watchlistItems"
                                     class="py-[2px] px-[8px] rounded-full bg-red-500"></small>
                             </a>
-                        </MenuItem>
-                        <MenuItem>
+                            </MenuItem>
+                            <MenuItem>
                             <a href="/src/orders.html" class="flex px-3 py-2 hover:bg-slate-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -103,8 +112,8 @@ defineProps({
                                 </svg>
                                 My Orders
                             </a>
-                        </MenuItem>
-                        <MenuItem>
+                            </MenuItem>
+                            <MenuItem>
                             <a href="/src/logout.html" class="flex px-3 py-2 hover:bg-slate-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -113,35 +122,34 @@ defineProps({
                                 </svg>
                                 Logout
                             </a>
-                        </MenuItem>
-                    </MenuItems>
-                </Menu>
+                            </MenuItem>
+                        </MenuItems>
+                    </Menu>
                 </li>
                 <li>
                     <Link v-if="canLogin" :href="route('login')"
                         class="flex items-center py-navbar-item px-navbar-item hover:bg-slate-900">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                        </svg>
-                        Login
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                    Login
                     </Link>
                 </li>
                 <li>
                     <Link v-if="canRegister" :href="route('register')"
                         class="inline-flex items-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors mx-5">
-                        Register now
+                    Register now
                     </Link>
                 </li>
             </ul>
         </nav>
-        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-4 block md:hidden">
+        <button @click="toggleResponsieNav" class="p-4 block md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
     </header>
-
 </template>

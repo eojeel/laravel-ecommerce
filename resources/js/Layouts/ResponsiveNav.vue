@@ -1,10 +1,18 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
+const props = defineProps({
+    mobileMenuOpen: {
+        type: Boolean,
+        required: true
+    }
+})
+
+
 </script>
 <template>
-    <div class="block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
-        :class="mobileMenuOpen ? 'left-0' : '-left-[220px]'">
+    <div class="left-0 block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
+        :class="this.mobileMenuOpen ? 'left-0' : '-left-[220px]'">
         <ul>
             <li>
                 <a href="/src/index.html" class="block py-2 px-3 transition-colors hover:bg-slate-800">Home</a>
