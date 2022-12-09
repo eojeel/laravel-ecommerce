@@ -3,14 +3,12 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import Nav from'@/Layouts/Nav.vue';
 
 defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-
+    loggedIn: Boolean,
 })
 </script>
 
 <template>
-    <Nav canLogin="canLogin" canRegister="canRegister"/>
+    <Nav :loggedIn="loggedIn"/>
     <Head title="Welcome" />
 
 Hello

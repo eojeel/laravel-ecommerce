@@ -5,14 +5,13 @@ const props = defineProps({
     mobileMenuOpen: {
         type: Boolean,
         required: true
-    }
+    },
+    loggedIn: Boolean
 })
-
-
 </script>
 <template>
-    <div class="left-0 block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
-        :class="this.mobileMenuOpen ? 'left-0' : '-left-[220px]'">
+    <div class="left-0 sm:block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
+        :class="mobileMenuOpen ? 'left-0' : '-left-[220px]'">
         <ul>
             <li>
                 <a href="/src/index.html" class="block py-2 px-3 transition-colors hover:bg-slate-800">Home</a>
@@ -42,8 +41,8 @@ const props = defineProps({
                     <!--/ Cart Items Counter -->
                 </a>
             </li>
-            <Menu>
-                <MenuButton class="cursor-pointer flex justify-between items-center py-2 px-3 hover:bg-slate-800">
+            <Menu v-if="loggedIn">
+                <MenuButton class="w-full cursor-pointer flex justify-between items-center py-2 px-3 hover:bg-slate-800">
                     <span class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
@@ -70,14 +69,15 @@ const props = defineProps({
                     </a>
                     </MenuItem>
                     <MenuItem v-slot="{ active }">
-                    <a href="/src/watchlist.html" class="flex items-center px-3 py-2 hover:bg-slate-900">
+                    <a href="/src/watchlist.html" class="flex justify-between items-center px-3 py-2 hover:bg-slate-900">
+                        <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                         Watchlist
-
+                        </div>
                         <small x-show="$store.header.watchlistItems" x-transition x-text="$store.header.watchlistItems"
                             class="py-[2px] px-[8px] rounded-full bg-red-500"></small>
                     </a>
@@ -105,7 +105,7 @@ const props = defineProps({
                 </MenuItems>
             </Menu>
             <li>
-                <Link v-if="canLogin" :href="route('login')"
+                <Link v-if="!loggedIn" :href="route('login')"
                     class="flex items-center py-2 px-3 transition-colors hover:bg-slate-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
@@ -116,7 +116,7 @@ const props = defineProps({
                 </Link>
             </li>
             <li class="px-3 py-3">
-                <Link v-if="canRegister" :href="route('register')"
+                <Link v-if="!loggedIn" :href="route('register')"
                     class="block text-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors w-full">
                 Register now
                 </Link>

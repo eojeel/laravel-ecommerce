@@ -1,9 +1,8 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3';
 import { ref } from "vue";
-import ResponsiveNavLinkVue from '@/Components/ResponsiveNavLink.vue';
+import ResponsiveNav from '@/Layouts/ResponsiveNav.vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-
 
 const emit = defineEmits(['toggle-sidebar']);
 const mobileMenuOpen = ref(false);
@@ -12,10 +11,8 @@ function toggleResponsieNav() {
     mobileMenuOpen.value = !mobileMenuOpen.value;
 }
 
-
 defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
+    loggedIn: Boolean,
     mobileMenuOpen: Boolean
 })
 </script>
@@ -26,7 +23,7 @@ defineProps({
             <a href="/src" class="block py-navbar-item pl-5"> Logo </a>
         </div>
         <!-- Responsive Menu -->
-        <ResponsiveNavLinkVue :mobileMenuOpen="mobileMenuOpen" />
+        <ResponsiveNav :mobileMenuOpen="mobileMenuOpen" :loggedIn="loggedIn"/>
         <!--/ Responsive Menu -->
         <nav class="hidden md:block">
             <ul class="grid grid-flow-col">
@@ -57,7 +54,7 @@ defineProps({
                     </a>
                 </li>
                 <li>
-                    <Menu>
+                    <Menu v-if="loggedIn">
                         <MenuButton
                             class="cursor-pointer flex items-center py-navbar-item px-navbar-item pr-5 hover:bg-slate-900">
                             <span class="flex items-center">
@@ -127,7 +124,7 @@ defineProps({
                     </Menu>
                 </li>
                 <li>
-                    <Link v-if="canLogin" :href="route('login')"
+                    <Link v-if="!loggedIn" :href="route('login')"
                         class="flex items-center py-navbar-item px-navbar-item hover:bg-slate-900">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
@@ -138,7 +135,7 @@ defineProps({
                     </Link>
                 </li>
                 <li>
-                    <Link v-if="canRegister" :href="route('register')"
+                    <Link v-if="!loggedIn" :href="route('register')"
                         class="inline-flex items-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors mx-5">
                     Register now
                     </Link>
