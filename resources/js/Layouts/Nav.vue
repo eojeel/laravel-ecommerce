@@ -4,6 +4,7 @@ import { ref } from "vue";
 import ResponsiveNav from '@/Layouts/ResponsiveNav.vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DropdownLink from '../Components/DropdownLink.vue'
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 const emit = defineEmits(['toggle-sidebar']);
 const mobileMenuOpen = ref(false);
@@ -21,7 +22,7 @@ defineProps({
 <template>
     <header class="flex justify-between bg-slate-800 shadow-md text-white">
         <div>
-            <a href="/src" class="block py-navbar-item pl-5"> Logo </a>
+            <a href="/" class="block py-navbar-item pl-5"> <ApplicationLogo class="w-5 h-5 fill-current text-gray-500"/></a>
         </div>
         <!-- Responsive Menu -->
         <ResponsiveNav :mobileMenuOpen="mobileMenuOpen" :loggedIn="loggedIn"/>
