@@ -1,10 +1,9 @@
 <?php
 
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +16,8 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', [ProductController::class, 'index']);
+Route::get('/', [ProductsController::class, 'index']);
+Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
