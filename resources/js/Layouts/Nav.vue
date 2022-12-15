@@ -30,7 +30,7 @@ defineProps({
         <nav class="hidden md:block">
             <ul class="grid grid-flow-col">
                 <li>
-                    <a href="/src/index.html" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Home</a>
+                    <Link :href="route('index')" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Home</Link>
                 </li>
                 <li>
                     <a href="#" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Categories</a>

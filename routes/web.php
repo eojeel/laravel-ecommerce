@@ -16,7 +16,7 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
-Route::get('/', [ProductsController::class, 'index']);
+Route::get('/', [ProductsController::class, 'index'])->name('index');
 Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
 
 Route::get('/dashboard', function () {
