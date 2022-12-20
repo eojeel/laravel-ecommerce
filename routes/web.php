@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductsController;
 
@@ -16,8 +17,21 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
+Route::middleware('guestOrVerified')->group(function () {
+
 Route::get('/', [ProductsController::class, 'index'])->name('index');
+
 Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
+
+Route::prefix('/cart')->name('cart')->group(function() {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::get('/add:{product:slug}', [CartController::class, 'store'])->name('add');
+    Route::get('/remove/{product:slug}', [CartController::class, 'destroy'])->name('remove');
+    Route::get('/update-quanity/{product:slug}', [CartController::class, 'update'])->name('update-quanity');
+    });
+
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
