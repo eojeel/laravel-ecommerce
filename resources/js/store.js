@@ -84,5 +84,17 @@ export const useStore = defineStore({
         deleteProduct(id) {
             return axios.delete(`/api/products/${id}`)
         },
+        addToCart(product, uri) {
+            return axiosClient.post(uri, 1)
+              .then(result => {
+                this.$dispatch('cart-change', {count: result.count})
+                this.$dispatch("notify", {
+                  message: "The item was added into the cart",
+                });
+              })
+              .catch(response => {
+                console.log(response);
+              })
+    }
     }
 })

@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 
 class Cart
 {
-    public static function getCartItemsCount(Request $request) : int
+    public static function getCartItemsCount() : int
     {
+        $request = Request();
         $user = $request->user();
         if($user)
         {

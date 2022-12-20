@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\CartItem;
 use App\Http\Helpers\Cart;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
