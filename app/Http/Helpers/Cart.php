@@ -24,8 +24,9 @@ class Cart
         );
     }
 
-    public static function getCartItems(Request $request)
+    public static function getCartItems()
     {
+        $request = Request();
         $user = $request->user();
         if($user)
         {

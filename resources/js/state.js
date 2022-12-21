@@ -17,4 +17,5 @@ export default {
         show: false,
         message: ''
     },
+    CartCount : null,
   }

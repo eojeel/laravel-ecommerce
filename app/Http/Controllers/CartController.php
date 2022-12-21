@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
@@ -142,7 +143,7 @@ class CartController extends Controller
         $user = $request->user();
         if($user)
         {
-            cartItems::where(['user_id' => $user->id, 'product_id' => $product->id])->update(['quantity' => $quantity]);
+            cartItem::where(['user_id' => $user->id, 'product_id' => $product->id])->update(['quantity' => $quantity]);
 
             return response([
                 'count' => Cart::getCartItemsCount()

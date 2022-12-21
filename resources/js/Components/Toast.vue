@@ -1,45 +1,18 @@
-
 <script setup>
-import  { useStore }  from '../store';
+import  { useStore }  from '../store.js';
 import { computed, ref, watch } from "vue";
 
 const store = useStore();
-
-console.log('ASDAS');
 
 let interval = null;
 let timeout = null;
 const percent = ref(0)
 const toast = computed(() => store.toast)
 
-watch(store.state.toast, (newToast) => {
-    if (newToast.show) {
-        if (interval) {
-            clearInterval(interval);
-            interval = null;
-        }
-        if (timeout) {
-            clearTimeout(timeout);
-            timeout = null;
-        }
-        timeout = setTimeout(() => {
-            close();
-            timeout = null;
-        }, toast.value.delay);
-        const startDate = Date.now();
-        const futureDate = Date.now() + toast.value.delay;
-        interval = setInterval(() => {
-            const date = Date.now();
-            percent.value = ((date - startDate) * 100) / (futureDate - startDate);
-            if (percent.value >= 100) {
-                clearInterval(interval);
-                interval = null;
-            }
-        }, 30);
-    }
-})
+console.log(store.toast.show);
+
 function close() {
-    store.commit('hideToast')
+    store.hideToast()
 }
 </script>
 
@@ -47,7 +20,7 @@ function close() {
 
 <template>
     <div v-show="toast.show"
-        class="fixed w-[400px] left-1/2 -ml-[200px] top-16 py-2 px-4 pb-4 bg-emerald-500 text-white">
+        class="fixed w-[400px] left-1/2 -ml-[200px] top-16 py-2 px-4 pb-4 bg-emerald-500 text-white z-10">
         <div class="font-semibold">{{ toast.message }}</div>
         <button @click="close"
             class="absolute flex items-center justify-center right-2 top-2 w-[30px] h-[30px] rounded-full hover:bg-black/10 transition-colors">

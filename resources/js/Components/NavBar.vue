@@ -3,8 +3,6 @@ import { Bars3Icon, ArrowLeftOnRectangleIcon, UserCircleIcon } from '@heroicons/
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import DropdownLink from '@/Components/DropdownLink.vue'
-import Toast from "@/Components/Toast.vue";
-
 const emit = defineEmits(['toggle-sidebar']);
 </script>
 <template>

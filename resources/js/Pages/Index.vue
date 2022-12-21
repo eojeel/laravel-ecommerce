@@ -1,28 +1,30 @@
 <script setup>
+import  { useStore }  from '@/store';
 import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
 import Nav from '@/Layouts/Nav.vue';
 import { computed } from 'vue';
-import  { useStore }  from '../store';
 
 const store = useStore();
-
 
 const props = defineProps({
     products: Object,
     loggedIn: Boolean,
+    cartItemsCount: Boolean
 })
+
+store.cartCount(props.cartItemsCount);
 
 const products = computed(() => props.products);
 
 function isInWatchlist(id) {
     return false;
 }
-store.showToast('anal');
+
 
 </script>
 
 <template>
-    <Nav :loggedIn="loggedIn" />
+    <Nav :loggedIn="loggedIn" :cartItemsCount="cartItemsCount" />
 
     <Head title="Welcome" />
 

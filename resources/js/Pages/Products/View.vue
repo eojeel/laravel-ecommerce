@@ -1,11 +1,18 @@
 <script setup>
+import  { useStore }  from '@/store';
 import { Head } from '@inertiajs/inertia-vue3';
 import Nav from "@/Layouts/Nav.vue";
 import { computed } from 'vue';
 
+const store = useStore();
+
 const props = defineProps({
     product: Object,
+    cartItemsCount: Boolean,
 });
+
+store.cartCount(props.cartItemsCount);
+
 
 const products = computed(() => props.products);
 
