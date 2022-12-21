@@ -17,6 +17,7 @@ const products = computed(() => props.products);
 function isInWatchlist(id) {
     return false;
 }
+store.showToast('anal');
 
 </script>
 

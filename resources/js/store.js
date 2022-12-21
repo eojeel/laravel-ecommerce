@@ -1,7 +1,7 @@
 import { defineStore, mapActions } from 'pinia'
 import state from './state'
 /** import * as actions from './actions' **/
-/** import * as mutations from './mutations'**/
+import * as mutations from '@/mutations';
 import axiosClient from "axios"
 import axios from 'axios'
 
@@ -11,8 +11,13 @@ export const useStore = defineStore({
     return state
     },
     getters: {},
-    mutations: {},
+    mutations:  mutations ,
     actions: {
+         showToast(message) {
+            console.log(message);
+            this.toast.show = state;
+            this.toast.message = message;
+            },
             getProducts({url = null, search = '', per_page = 10, sortField, sortDirection} = {}) {
             this.setProducts(true)
             url = url || '/api/products';
@@ -87,10 +92,8 @@ export const useStore = defineStore({
         addToCart(product, uri) {
             return axiosClient.post(uri, 1)
               .then(result => {
-                this.$dispatch('cart-change', {count: result.count})
-                this.$dispatch("notify", {
-                  message: "The item was added into the cart",
-                });
+                //this.$dispatch('cart-change', {count: result.count})
+                this.showToast("The item was added into the cart")
               })
               .catch(response => {
                 console.log(response);
