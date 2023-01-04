@@ -32,7 +32,7 @@ class CartController extends Controller
             $total += $product->price + $cartItems[$product->id]['quantity'];
         }
 
-        return Inertia::render('Cart/Cart', ['CartItems' => $cartItems, 'products' => $products, 'total' => $total]);
+        return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total]);
     }
 
     /**

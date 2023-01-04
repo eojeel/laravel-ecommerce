@@ -4,7 +4,9 @@ import Nav from "@/Layouts/Nav.vue";
 import { computed } from 'vue';
 
 const props = defineProps({
-    product: Object,
+    products: Object,
+    cartitems: Object,
+    total: Number,
 });
 
 const products = computed(() => props.products);
@@ -13,73 +15,66 @@ const products = computed(() => props.products);
 
 <template>
 
-<Nav :loggedIn="loggedIn" />
-<Head title="product" />
+    <Nav :loggedIn="loggedIn" />
 
-<p x-text="id"></p>
+    <Head title="product" />
 
+    <p x-text="id"></p>
     <main class="p-5">
-      <div class="container mx-auto">
-        <div class="grid gap-6 grid-cols-1 lg:grid-cols-5">
-          <div class="lg:col-span-3">
-                    <img :src="product.image" :alt="product.title" class="w-auto max-auto max-h-full"/>
-          </div>
-          <div class="lg:col-span-2">
-            <h1 class="text-lg font-semibold">
-              {{ product.title }}
-            </h1>
-            <div class="text-xl font-bold mb-6">£{{ product.price }}</div>
-            <div class="flex items-center justify-between mb-5">
-              <label for="quantity" class="block font-bold mr-4">
-                Quantity
-              </label>
-              <input
-                type="number"
-                name="quantity"
-                x-ref="quantityEl"
-                value="1"
-                class="w-32 focus:border-purple-500 focus:outline-none rounded"
-              />
+        <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
+            <h1 class="text-3xl font-bold mb-6">Your Cart Items</h1>
+
+            <div class="bg-white p-4 rounded-lg shadow">
+                <!-- Product Items -->
+                <div>
+                    <!-- Product Item -->
+                    <template v-for="product in products">
+                        <div>
+                            <div class="w-full flex flex-col sm:flex-row items-center gap-4">
+                                <a href="/src/product.html"
+                                    class="w-36 h-32 flex items-center justify-center overflow-hidden">
+                                    <img :src="product.image" class="object-cover" alt="" />
+                                </a>
+                                <div class="flex-1 flex flex-col justify-between">
+                                    <div class="flex justify-between mb-3">
+                                        <h3 x-text="product.title"></h3>
+                                        <span class="text-lg font-semibold">
+                                            $<span>{{ product.price }}</span>
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            Qty:
+                                            <input type="number" class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16" :value="cartitems[product.id].quantity"/>
+                                        </div>
+                                        <a @click.prevent="removeItemFromCart()" href="#"
+                                            class="text-purple-600 hover:text-purple-500">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ Product Item -->
+                            <hr class="my-5" />
+                        </div>
+                    </template>
+                    <!-- Product Item -->
+                </div>
+                <!--/ Product Items -->
+
+                <div class="border-t border-gray-300 pt-4">
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Subtotal</span>
+                        <span class="text-xl" x-text="`$${total}`"></span>
+                    </div>
+                    <p class="text-gray-500 mb-6">
+                        Shipping and taxes calculated at checkout.
+                    </p>
+
+                    <button type="submit" class="btn-primary w-full py-3 text-lg">
+                        Proceed to Checkout
+                    </button>
+                </div>
             </div>
-            <button
-              @click="addToCart(id, $refs.quantityEl.value)"
-              class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              Add to Cart
-            </button>
-            <div class="mb-6" x-data="{expanded: false}">
-              <div
-                x-show="expanded"
-                x-collapse.min.120px
-                class="text-gray-500 wysiwyg-content"
-              >
-              {{ product.description }}
-              </div>
-              <p class="text-right">
-                <a
-                  @click="expanded = !expanded"
-                  href="javascript:void(0)"
-                  class="text-purple-500 hover:text-purple-700"
-                  x-text="expanded ? 'Read Less' : 'Read More'"
-                ></a>
-              </p>
-            </div>
-          </div>
         </div>
-      </div>
     </main>
+
 </template>
