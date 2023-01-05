@@ -1,21 +1,26 @@
 <script setup>
+import  { useStore }  from '@/store';
 import { Head } from '@inertiajs/inertia-vue3';
 import Nav from "@/Layouts/Nav.vue";
 import { computed } from 'vue';
+
+const store = useStore();
 
 const props = defineProps({
     products: Object,
     cartitems: Object,
     total: Number,
+    cartItemsCount: Boolean
 });
+
+console.log(props.total);
 
 const products = computed(() => props.products);
 
 </script>
 
 <template>
-
-    <Nav :loggedIn="loggedIn" />
+    <Nav :loggedIn="loggedIn"/>
 
     <Head title="product" />
 
@@ -33,11 +38,11 @@ const products = computed(() => props.products);
                             <div class="w-full flex flex-col sm:flex-row items-center gap-4">
                                 <a href="/src/product.html"
                                     class="w-36 h-32 flex items-center justify-center overflow-hidden">
-                                    <img :src="product.image" class="object-cover" alt="" />
+                                    <img :src="product.image" class="object-cover" :alt="product.title" />
                                 </a>
                                 <div class="flex-1 flex flex-col justify-between">
                                     <div class="flex justify-between mb-3">
-                                        <h3 x-text="product.title"></h3>
+                                        <h3>{{ product.title }}</h3>
                                         <span class="text-lg font-semibold">
                                             $<span>{{ product.price }}</span>
                                         </span>
@@ -45,9 +50,9 @@ const products = computed(() => props.products);
                                     <div class="flex justify-between items-center">
                                         <div class="flex items-center">
                                             Qty:
-                                            <input type="number" class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16" :value="cartitems[product.id].quantity"/>
+                                            <input :product="product" type="number" class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16" @change="store.changeQuantity(product, $event.target.value)" :value="cartitems[product.id].quantity"/>
                                         </div>
-                                        <a @click.prevent="removeItemFromCart()" href="#"
+                                        <a @click.prevent="store.removeItemFromCart(product)" href="#"
                                             class="text-purple-600 hover:text-purple-500">Remove</a>
                                     </div>
                                 </div>

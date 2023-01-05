@@ -27,12 +27,14 @@ class CartController extends Controller
         $cartItems = Arr::keyBy($cartItems, 'product_id');
 
         $total = 0;
-        foreach ($products as $product)
+        foreach ($products as &$product)
         {
             $total += $product->price + $cartItems[$product->id]['quantity'];
+            $product['removeUrl'] = route('cart.remove', $product);
+            $product['updateQuanityUrl'] = route('cart.update-quanity', $product);
         }
 
-        return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total]);
+        return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total, 'cartItemsCount' => Cart::getCartItemsCount()]);
     }
 
     /**

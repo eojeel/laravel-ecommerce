@@ -3,7 +3,6 @@ import state from './state'
 /** import * as actions from './actions' **/
 import * as mutations from '@/mutations';
 import axiosClient from "axios"
-import axios from 'axios'
 
 export const useStore = defineStore({
     id: 'store',
@@ -19,7 +18,7 @@ export const useStore = defineStore({
             this.toast.message = message;
             setTimeout(() => {
                 this.toast.show = false;
-              }, 3000);
+            }, 3000);
         },
         hideToast(state) {
             this.toast.show = false;
@@ -69,7 +68,7 @@ export const useStore = defineStore({
                 form.append('price', product.price);
                 product = form;
             }
-            return axios.post('/api/products', product)
+            return axiosClient.post('/api/products', product)
         },
         updateProduct(product) {
             const id = product.id
@@ -86,18 +85,17 @@ export const useStore = defineStore({
             } else {
                 product._method = 'PUT';
             }
-            return axios.post(`/api/products/${id}`, product)
+            return axiosClient.post(`/api/products/${id}`, product)
         },
         deleteProduct(id) {
-            return axios.delete(`/api/products/${id}`)
+            return axiosClient.delete(`/api/products/${id}`)
         },
         deleteProduct(id) {
-            return axios.delete(`/api/products/${id}`)
+            return axiosClient.delete(`/api/products/${id}`)
         },
         addToCart(product, uri) {
             return axiosClient.post(uri, 1)
                 .then(result => {
-                    //this.$dispatch('cart-change', {count: result.count})
                     this.showToast(true, "The item was added into the cart")
                     this.CartCount++;
                 })
@@ -106,9 +104,24 @@ export const useStore = defineStore({
                 })
         },
         cartCount(cartItemsCount) {
-            if(cartItemsCount > 0 && !this.CartCount) {
+            if (cartItemsCount > 0 && !this.CartCount) {
                 this.CartCount = cartItemsCount;
             }
-        }
+        },
+        changeQuantity(product, qty) {
+            axiosClient.post(product.updateQuanityUrl, { quantity: qty })
+                .then(result => {
+                    this.CartCount = result.data.count;
+                    this.showToast(true, "The item quantity was updated");
+                })
+        },
+        removeItemFromCart(product) {
+            axiosClient.post(product.removeUrl)
+              .then(result => {
+                this.showToast(true, "The item was removed from cart");
+                this.CartCount = result.data.count;
+                this.cartItems = this.cartItems.filter(p => p.id !== product.id)
+              })
+          },
     }
 })
