@@ -1,26 +1,47 @@
-<script setup>
-import  { useStore }  from '@/store';
+<script>
+import { mapStores, defineStore, mapActions } from 'pinia';
+import { useStore } from '@/store';
 import { Head } from '@inertiajs/inertia-vue3';
 import Nav from "@/Layouts/Nav.vue";
-import { computed } from 'vue';
+import axiosClient from "axios";
 
-const store = useStore();
 
-const props = defineProps({
-    products: Object,
-    cartitems: Object,
-    total: Number,
-    cartItemsCount: Boolean
-});
+const useUserStore = defineStore('store', useStore);
 
-console.log(props.total);
-
-const products = computed(() => props.products);
+export default {
+    props: {
+        products: Object,
+        cartitems: Object,
+        total: Number,
+        cartItemsCount: Number
+    },
+    computed: {
+    ...mapStores(useUserStore)
+  },
+    methods: {
+        ...mapActions(useStore, ['showToast']),
+        changeQuantity(product, qty) {
+            axiosClient.post(product.updateQuanityUrl, { quantity: qty })
+                .then(result => {
+                    this.storeStore.CartCount = result.data.count;
+                    this.showToast(true, "The item quantity was updated");
+                })
+        },
+        removeItemFromCart(product) {
+            console.log(this.productsArray);
+            axiosClient.post(product.removeUrl)
+                .then(result => {
+                    this.showToast(true, "The item was removed from cart");
+                    this.storeStore.CartCount = result.data.count;
+                })
+        }
+    }
+}
 
 </script>
 
 <template>
-    <Nav :loggedIn="loggedIn"/>
+    <Nav :loggedIn="loggedIn" />
 
     <Head title="product" />
 
@@ -33,7 +54,7 @@ const products = computed(() => props.products);
                 <!-- Product Items -->
                 <div>
                     <!-- Product Item -->
-                    <template v-for="product in products">
+                    <template v-for="product in this.products">
                         <div>
                             <div class="w-full flex flex-col sm:flex-row items-center gap-4">
                                 <a href="/src/product.html"
@@ -50,9 +71,12 @@ const products = computed(() => props.products);
                                     <div class="flex justify-between items-center">
                                         <div class="flex items-center">
                                             Qty:
-                                            <input :product="product" type="number" class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16" @change="store.changeQuantity(product, $event.target.value)" :value="cartitems[product.id].quantity"/>
+                                            <input :product="product" type="number"
+                                                class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16"
+                                                @change="changeQuantity(product, $event.target.value)"
+                                                :value="cartitems[product.id].quantity" />
                                         </div>
-                                        <a @click.prevent="store.removeItemFromCart(product)" href="#"
+                                        <a @click.prevent="removeItemFromCart(product)" href="#"
                                             class="text-purple-600 hover:text-purple-500">Remove</a>
                                     </div>
                                 </div>

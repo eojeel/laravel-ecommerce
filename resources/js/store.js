@@ -1,4 +1,4 @@
-import { defineStore, mapActions } from 'pinia'
+import { defineStore } from 'pinia'
 import state from './state'
 /** import * as actions from './actions' **/
 import * as mutations from '@/mutations';
@@ -108,20 +108,5 @@ export const useStore = defineStore({
                 this.CartCount = cartItemsCount;
             }
         },
-        changeQuantity(product, qty) {
-            axiosClient.post(product.updateQuanityUrl, { quantity: qty })
-                .then(result => {
-                    this.CartCount = result.data.count;
-                    this.showToast(true, "The item quantity was updated");
-                })
-        },
-        removeItemFromCart(product) {
-            axiosClient.post(product.removeUrl)
-              .then(result => {
-                this.showToast(true, "The item was removed from cart");
-                this.CartCount = result.data.count;
-                this.cartItems = this.cartItems.filter(p => p.id !== product.id)
-              })
-          },
     }
 })

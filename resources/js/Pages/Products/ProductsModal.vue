@@ -11,7 +11,7 @@ import {
     DialogTitle,
 } from '@headlessui/vue'
 
-const store = useStore();
+
 
 const product = ref({
     id: props.product.id,

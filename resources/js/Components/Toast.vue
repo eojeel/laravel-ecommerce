@@ -9,13 +9,11 @@ let timeout = null;
 const percent = ref(0)
 const toast = computed(() => store.toast)
 
-console.log(store.toast.show);
 
 function close() {
     store.hideToast()
 }
 </script>
-
 
 
 <template>
