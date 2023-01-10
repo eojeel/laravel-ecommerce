@@ -23,8 +23,9 @@ class CartController extends Controller
         $cartItems = Cart::getCartItems();
 
         $ids = Arr::pluck($cartItems, 'product_id');
-        $products = Product::query()->whereIn('id', $ids)->get();
+        $products = Arr::keyBy(Product::query()->whereIn('id', $ids)->get(), 'id');
         $cartItems = Arr::keyBy($cartItems, 'product_id');
+
 
         $total = 0;
         foreach ($products as &$product)
@@ -33,6 +34,7 @@ class CartController extends Controller
             $product['removeUrl'] = route('cart.remove', $product);
             $product['updateQuanityUrl'] = route('cart.update-quanity', $product);
         }
+
 
         return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total, 'cartItemsCount' => Cart::getCartItemsCount()]);
     }

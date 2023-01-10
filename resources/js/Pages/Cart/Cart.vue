@@ -1,42 +1,30 @@
-<script>
-import { mapStores, defineStore, mapActions } from 'pinia';
+<script setup>
 import { useStore } from '@/store';
 import { Head } from '@inertiajs/inertia-vue3';
 import Nav from "@/Layouts/Nav.vue";
-import axiosClient from "axios";
+import { computed, reactive } from 'vue';
+import axiosClient from "axios"
+
+const store = useStore();
+
+const props = defineProps({
+    products: Object,
+    cartitems: Object,
+    total: Number,
+    cartItemsCount: Boolean
+});
+const products = reactive(props.products);
 
 
-const useUserStore = defineStore('store', useStore);
-
-export default {
-    props: {
-        products: Object,
-        cartitems: Object,
-        total: Number,
-        cartItemsCount: Number
-    },
-    computed: {
-    ...mapStores(useUserStore)
-  },
-    methods: {
-        ...mapActions(useStore, ['showToast']),
-        changeQuantity(product, qty) {
-            axiosClient.post(product.updateQuanityUrl, { quantity: qty })
-                .then(result => {
-                    this.storeStore.CartCount = result.data.count;
-                    this.showToast(true, "The item quantity was updated");
-                })
-        },
-        removeItemFromCart(product) {
-            console.log(this.productsArray);
-            axiosClient.post(product.removeUrl)
-                .then(result => {
-                    this.showToast(true, "The item was removed from cart");
-                    this.storeStore.CartCount = result.data.count;
-                })
-        }
-    }
+function removeItemFromCart(product) {
+    axiosClient.post(product.removeUrl)
+        .then(result => {
+            this.store.showToast(true, "The item was removed from cart");
+            this.store.CartCount = result.data.count;
+            delete this.products[product.id];
+        })
 }
+
 
 </script>
 
@@ -54,7 +42,7 @@ export default {
                 <!-- Product Items -->
                 <div>
                     <!-- Product Item -->
-                    <template v-for="product in this.products">
+                    <template v-for="product in products">
                         <div>
                             <div class="w-full flex flex-col sm:flex-row items-center gap-4">
                                 <a href="/src/product.html"
@@ -73,7 +61,7 @@ export default {
                                             Qty:
                                             <input :product="product" type="number"
                                                 class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16"
-                                                @change="changeQuantity(product, $event.target.value)"
+                                                @change="store.changeQuantity(product, $event.target.value)"
                                                 :value="cartitems[product.id].quantity" />
                                         </div>
                                         <a @click.prevent="removeItemFromCart(product)" href="#"

@@ -108,5 +108,12 @@ export const useStore = defineStore({
                 this.CartCount = cartItemsCount;
             }
         },
+        changeQuantity(product, qty) {
+            axiosClient.post(product.updateQuanityUrl, { quantity: qty })
+                .then(result => {
+                    this.CartCount = result.data.count;
+                    this.showToast(true, "The item quantity was updated");
+                })
+        },
     }
 })
