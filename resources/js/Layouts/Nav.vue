@@ -20,7 +20,7 @@ function toggleResponsieNav() {
 const props = defineProps({
     loggedIn: Boolean,
     mobileMenuOpen: Boolean,
-    cartItemsCount: Boolean
+    cartItemsCount: Number
 })
 
 

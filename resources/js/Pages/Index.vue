@@ -1,6 +1,7 @@
 <script setup>
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import  { useStore }  from '@/store';
-import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/inertia-vue3';
 import Nav from '@/Layouts/Nav.vue';
 import { computed } from 'vue';
 
@@ -9,25 +10,19 @@ const store = useStore();
 const props = defineProps({
     products: Object,
     loggedIn: Boolean,
-    cartItemsCount: Boolean
+    cartItemsCount: Number
 })
 
 store.cartCount(props.cartItemsCount);
 
 const products = computed(() => props.products);
 
-function isInWatchlist(id) {
-    return false;
-}
-
 
 </script>
 
 <template>
-    <Nav :loggedIn="loggedIn" :cartItemsCount="cartItemsCount" />
-
-    <Head title="Welcome" />
-
+        <Head title="Welcome" />
+    <DefaultLayout :cartItemsCount="cartItemsCount">
     <!-- Product List -->
     <div class="grid gap-8 grig-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5">
         <!-- Product Item -->
@@ -65,4 +60,6 @@ function isInWatchlist(id) {
                 i === products.links.length - 1 ? 'rounded-r-md' : ''
             ]" v-html="link.label"></a>
     </nav>
+</DefaultLayout>
+
 </template>

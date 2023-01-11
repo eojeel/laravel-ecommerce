@@ -1,8 +1,8 @@
 <script setup>
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { useStore } from '@/store';
 import { Head } from '@inertiajs/inertia-vue3';
-import Nav from "@/Layouts/Nav.vue";
-import { computed, reactive } from 'vue';
+import { reactive } from 'vue';
 import axiosClient from "axios"
 
 const store = useStore();
@@ -11,7 +11,7 @@ const props = defineProps({
     products: Object,
     cartitems: Object,
     total: Number,
-    cartItemsCount: Boolean
+    cartItemsCount: Number
 });
 const products = reactive(props.products);
 
@@ -29,8 +29,7 @@ function removeItemFromCart(product) {
 </script>
 
 <template>
-    <Nav :loggedIn="loggedIn" />
-
+    <DefaultLayout>
     <Head title="product" />
 
     <p x-text="id"></p>
@@ -93,5 +92,5 @@ function removeItemFromCart(product) {
             </div>
         </div>
     </main>
-
+</DefaultLayout>
 </template>

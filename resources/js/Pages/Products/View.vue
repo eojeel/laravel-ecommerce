@@ -1,4 +1,5 @@
 <script setup>
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import  { useStore }  from '@/store';
 import { Head } from '@inertiajs/inertia-vue3';
 import Nav from "@/Layouts/Nav.vue";
@@ -8,7 +9,7 @@ const store = useStore();
 
 const props = defineProps({
     product: Object,
-    cartItemsCount: Boolean,
+    cartItemsCount: Number,
 });
 
 store.cartCount(props.cartItemsCount);
@@ -20,8 +21,8 @@ const products = computed(() => props.products);
 
 <template>
 
-<Nav :loggedIn="loggedIn" />
 <Head title="product" />
+<DefaultLayout>
 
 <p x-text="id"></p>
 
@@ -89,4 +90,5 @@ const products = computed(() => props.products);
         </div>
       </div>
     </main>
+</DefaultLayout>
 </template>

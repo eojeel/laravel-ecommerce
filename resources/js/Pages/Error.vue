@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import DefaultLayout from '../Layouts/DefaultLayout.vue';
+import GuestLayout from '../Layouts/GuestLayout.vue';
 
 const props = defineProps({
     status: Number
@@ -27,7 +27,7 @@ const description = computed(() => {
 
 
 <template>
-    <DefaultLayout>
+    <GuestLayout>
     <div class="flex justify-center items-center min-h-full h-full w-full min-w-full">
         <div class="text-indigo-600 text-9xl px-8 font-bold border-r pb-8">
             {{ props.status }}
@@ -40,5 +40,5 @@ const description = computed(() => {
             </div>
         </div>
     </div>
-</DefaultLayout>
+</GuestLayout>
 </template>
