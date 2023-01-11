@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
+use Inertia\Inertia;
+use App\Models\Customer;
+use App\Http\Helpers\Cart;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Inertia\Inertia;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 
 class RegisteredUserController extends Controller
 {
@@ -48,7 +51,16 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        $cust = new Customer();
+        $name = explode(" ", $user->name);
+        $cust->user_id = $user->id;
+        $cust->first_name = $name[0];
+        $cust->last_name = Str::after($user->name, $name[0]);
+        $cust->save();
+
         Auth::login($user);
+
+        Cart::moveCartItemsIntoDb();
 
         return redirect(RouteServiceProvider::HOME);
     }

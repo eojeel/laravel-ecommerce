@@ -15,7 +15,6 @@ const props = defineProps({
 });
 const products = reactive(props.products);
 
-
 function removeItemFromCart(product) {
     axiosClient.post(product.removeUrl)
         .then(result => {
@@ -25,11 +24,10 @@ function removeItemFromCart(product) {
         })
 }
 
-
 </script>
 
 <template>
-    <DefaultLayout>
+    <DefaultLayout :cartItemsCount="cartItemsCount">
     <Head title="product" />
 
     <p x-text="id"></p>

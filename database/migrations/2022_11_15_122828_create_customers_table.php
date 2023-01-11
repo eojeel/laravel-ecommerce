@@ -23,6 +23,10 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
         });
+
+        Schema::table('customers', function (Blueprint $table) {
+            $table->renameColumn('id', 'user_id');
+        });
     }
 
     /**
