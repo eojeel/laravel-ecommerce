@@ -14,7 +14,6 @@ class ProductsController extends Controller
     {
         return Inertia::render('Index',  [
             'products' => Product::paginate(8),
-            'loggedIn' => Auth::check(),
             'cartItemsCount' => Cart::getCartItemsCount(),
         ]);
     }

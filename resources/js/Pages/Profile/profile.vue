@@ -5,7 +5,9 @@ import { Head } from '@inertiajs/inertia-vue3';
 const props = defineProps({
     user: {
         user: Object,
-        addresses: Object,
+        shippingaddress: Object,
+        billingaddress: Object,
+        countries: Object,
     }
 })
 </script>
