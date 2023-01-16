@@ -1,6 +1,6 @@
 <script setup>
 
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/vue3';
 import { HomeIcon, UsersIcon, QueueListIcon, ChartBarIcon } from  '@heroicons/vue/24/outline';
 </script>
 

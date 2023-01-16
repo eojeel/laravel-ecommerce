@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from '@/store';
-import { Link, usePage } from '@inertiajs/inertia-vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { ref, computed } from "vue";
 import ResponsiveNav from '@/Layouts/ResponsiveNav.vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
@@ -21,7 +21,7 @@ const props = defineProps({
     mobileMenuOpen: Boolean,
     cartItemsCount: Number
 })
-const user = computed(() => usePage().props.value.auth.user)
+const user = computed(() => usePage().props.auth.user)
 
 store.cartCount(props.cartItemsCount);
 </script>

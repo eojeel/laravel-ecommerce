@@ -1,7 +1,7 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { useStore } from '@/store';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import axiosClient from "axios"
 

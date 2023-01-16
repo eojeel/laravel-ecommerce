@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/vue3';
 import ProductsTable from '@/Pages/Products/ProductsTable.vue'
 import ProductsModal from '@/Pages/Products/ProductsModal.vue'
 
