@@ -1,7 +1,7 @@
 <script setup>
 import { useStore } from '@/store';
-import { Link } from '@inertiajs/inertia-vue3';
-import { ref } from "vue";
+import { Link, usePage } from '@inertiajs/inertia-vue3';
+import { ref, computed } from "vue";
 import ResponsiveNav from '@/Layouts/ResponsiveNav.vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DropdownLink from '../Components/DropdownLink.vue'
@@ -18,14 +18,12 @@ function toggleResponsieNav() {
 }
 
 const props = defineProps({
-    loggedIn: Boolean,
     mobileMenuOpen: Boolean,
     cartItemsCount: Number
 })
-
+const user = computed(() => usePage().props.value.auth.user)
 
 store.cartCount(props.cartItemsCount);
-
 </script>
 
 <template>
@@ -34,18 +32,12 @@ store.cartCount(props.cartItemsCount);
             <a href="/" class="block py-navbar-item pl-5"> <ApplicationLogo class="w-5 h-5 fill-current text-gray-500"/></a>
         </div>
         <!-- Responsive Menu -->
-        <ResponsiveNav :mobileMenuOpen="mobileMenuOpen" :loggedIn="loggedIn"/>
+        <ResponsiveNav :mobileMenuOpen="mobileMenuOpen"/>
        <!--/ Responsive Menu -->
         <nav class="hidden md:block">
             <ul class="grid grid-flow-col">
                 <li>
                     <Link :href="route('index')" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Home</Link>
-                </li>
-                <li>
-                    <a href="#" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Categories</a>
-                </li>
-                <li>
-                    <a href="#" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Something</a>
                 </li>
             </ul>
         </nav>
@@ -65,7 +57,7 @@ store.cartCount(props.cartItemsCount);
                     </a>
                 </li>
                 <li>
-                    <Menu v-if="loggedIn">
+                    <Menu v-if="user">
                         <MenuButton
                             class="cursor-pointer flex items-center py-navbar-item px-navbar-item pr-5 hover:bg-slate-900">
                             <span class="flex items-center">
@@ -85,7 +77,7 @@ store.cartCount(props.cartItemsCount);
                         </MenuButton>
                         <MenuItems class="absolute z-10 bg-slate-800 py-2 w-48">
                             <MenuItem>
-                            <a href="/src/profile.html" class="flex px-3 py-2 hover:bg-slate-900">
+                            <a :href="route('profile.view')" class="flex px-3 py-2 hover:bg-slate-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -137,7 +129,7 @@ store.cartCount(props.cartItemsCount);
                     </Menu>
                 </li>
                 <li>
-                    <Link v-if="!loggedIn" :href="route('login')"
+                    <Link v-if="!user" :href="route('login')"
                         class="flex items-center py-navbar-item px-navbar-item hover:bg-slate-900">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
@@ -148,7 +140,7 @@ store.cartCount(props.cartItemsCount);
                     </Link>
                 </li>
                 <li>
-                    <Link v-if="!loggedIn" :href="route('register')"
+                    <Link v-if="!user" :href="route('register')"
                         class="inline-flex items-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors mx-5">
                     Register now
                     </Link>

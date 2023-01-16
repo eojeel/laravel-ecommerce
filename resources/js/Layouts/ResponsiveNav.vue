@@ -8,7 +8,6 @@ const props = defineProps({
         type: Boolean,
         required: true
     },
-    loggedIn: Boolean
 })
 </script>
 <template>

@@ -55,14 +55,15 @@ class Cart
         );
     }
 
-    public static function moveCartItemsIntoDb(Request $request)
+    public static function moveCartItemsIntoDb()
     {
+        $request = Request();
         $cartItems = self::getCookieCartItems();
         $dbCartItems = CartItem::where(['user_id' => $request->user()->id])->get()->keyBy('product_id');
 
         foreach($cartItems as $cartItem)
         {
-            if(isset($dbCartItems[$cartItem['product_id']]))
+            if(!isset($dbCartItems[$cartItem['product_id']]))
             {
                 $newCartItems[] = [
                     'user_id' => $request->user()->id,
@@ -71,6 +72,7 @@ class Cart
                 ];
             }
         }
+
         if(!empty($newCartItems))
         {
             CartItem::insert($newCartItems);

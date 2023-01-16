@@ -9,14 +9,12 @@ const store = useStore();
 
 const props = defineProps({
     products: Object,
-    loggedIn: Boolean,
     cartItemsCount: Number
 })
 
 store.cartCount(props.cartItemsCount);
 
 const products = computed(() => props.products);
-
 
 </script>
 

@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->string('code', 3)->primary();
             $table->string('name', 255);
-            $table->jsonb('state')->nullable();
+            $table->jsonb('states')->nullable();
         });
+
     }
 
     /**

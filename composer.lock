@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "abc0ce721171c40030bcb04200cfe5e1",
+    "content-hash": "fb919ee7cb62f10ca0956ae72c70849c",
     "packages": [
         {
             "name": "brick/math",
@@ -943,6 +943,7 @@
         },
         {
             "name": "inertiajs/inertia-laravel",
+<<<<<<< HEAD
             "version": "v0.6.8",
             "source": {
                 "type": "git",
@@ -953,6 +954,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/c07625de0c1ba4d12d07e4063c56d813ef4a8e4c",
                 "reference": "c07625de0c1ba4d12d07e4063c56d813ef4a8e4c",
+=======
+            "version": "v0.6.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inertiajs/inertia-laravel.git",
+                "reference": "5fbcf32a86ab0e34c17c20148e50baa095f424af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/5fbcf32a86ab0e34c17c20148e50baa095f424af",
+                "reference": "5fbcf32a86ab0e34c17c20148e50baa095f424af",
+>>>>>>> f5031b073e9c19a3813a0cc1837ece2d249c7bc6
                 "shasum": ""
             },
             "require": {
@@ -1000,7 +1013,11 @@
             ],
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.6.8"
+=======
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.6.5"
+>>>>>>> f5031b073e9c19a3813a0cc1837ece2d249c7bc6
             },
             "funding": [
                 {
@@ -1008,7 +1025,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-01-14T13:48:00+00:00"
+=======
+            "time": "2023-01-10T15:59:48+00:00"
+>>>>>>> f5031b073e9c19a3813a0cc1837ece2d249c7bc6
         },
         {
             "name": "laravel/framework",
@@ -8064,7 +8085,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0.2"
+        "php": "^8.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
