@@ -1,7 +1,10 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from "vue";
 import DropdownLink from '../Components/DropdownLink.vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+
+const user = computed(() => usePage().props.auth.user);
 
 const props = defineProps({
     mobileMenuOpen: {
@@ -13,17 +16,6 @@ const props = defineProps({
 <template>
     <div class="left-0 sm:block fixed z-10 top-0 bottom-0 height h-full w-[220px] transition-all bg-slate-900 md:hidden"
         :class="mobileMenuOpen ? 'left-0' : '-left-[220px]'">
-        <ul>
-            <li>
-                <a href="/src/index.html" class="block py-2 px-3 transition-colors hover:bg-slate-800">Home</a>
-            </li>
-            <li>
-                <a href="#" class="block py-2 px-3 transition-colors hover:bg-slate-800">Categories</a>
-            </li>
-            <li>
-                <a href="#" class="block py-2 px-3 transition-colors hover:bg-slate-800">Something</a>
-            </li>
-        </ul>
         <ul>
             <li>
                 <a href="/src/cart.html"
@@ -42,7 +34,7 @@ const props = defineProps({
                     <!--/ Cart Items Counter -->
                 </a>
             </li>
-            <Menu v-if="loggedIn">
+            <Menu v-if="user">
                 <MenuButton class="w-full cursor-pointer flex justify-between items-center py-2 px-3 hover:bg-slate-800">
                     <span class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
@@ -60,7 +52,7 @@ const props = defineProps({
                 </MenuButton>
                 <MenuItems class="z-10 right-0 bg-slate-800 py-2">
                     <MenuItem v-slot="{ active }">
-                    <a href="/src/profile.html" class="flex px-3 py-2 hover:bg-slate-900">
+                    <a :href="route('profile.view')" class="flex px-3 py-2 hover:bg-slate-900">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -108,7 +100,7 @@ const props = defineProps({
                 </MenuItems>
             </Menu>
             <li>
-                <Link v-if="!loggedIn" :href="route('login')"
+                <Link v-if="!user" :href="route('login')"
                     class="flex items-center py-2 px-3 transition-colors hover:bg-slate-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
@@ -119,7 +111,7 @@ const props = defineProps({
                 </Link>
             </li>
             <li class="px-3 py-3">
-                <Link v-if="!loggedIn" :href="route('register')"
+                <Link v-if="!user" :href="route('register')"
                     class="block text-center text-white bg-emerald-600 py-2 px-3 rounded shadow-md hover:bg-emerald-700 active:bg-emerald-800 transition-colors w-full">
                 Register now
                 </Link>

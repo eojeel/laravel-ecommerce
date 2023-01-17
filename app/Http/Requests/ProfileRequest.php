@@ -27,8 +27,8 @@ class ProfileRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:7'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-
+            'email' => ['required', 'string', 'email', 'max:255'],
+//unique:users'
             'shipping.address1' => ['required'],
             'shipping.address2' => ['required'],
             'shipping.city' => ['required'],
@@ -45,7 +45,7 @@ class ProfileRequest extends FormRequest
         ];
     }
 
-     public function ()
+     public function attributes()
     {
         return [
             'billing.address1' => 'address 1',

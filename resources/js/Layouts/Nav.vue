@@ -29,17 +29,14 @@ store.cartCount(props.cartItemsCount);
 <template>
     <header class="flex justify-between bg-slate-800 shadow-md text-white">
         <div>
-            <a href="/" class="block py-navbar-item pl-5"> <ApplicationLogo class="w-5 h-5 fill-current text-gray-500"/></a>
+            <a href="/" class="block py-navbar-item pl-5">
+                <ApplicationLogo class="w-5 h-5 fill-current text-gray-500" />
+            </a>
         </div>
         <!-- Responsive Menu -->
-        <ResponsiveNav :mobileMenuOpen="mobileMenuOpen"/>
-       <!--/ Responsive Menu -->
+        <ResponsiveNav :mobileMenuOpen="mobileMenuOpen" />
+        <!--/ Responsive Menu -->
         <nav class="hidden md:block">
-            <ul class="grid grid-flow-col">
-                <li>
-                    <Link :href="route('index')" class="block py-navbar-item px-navbar-item hover:bg-slate-900">Home</Link>
-                </li>
-            </ul>
         </nav>
         <nav class="hidden md:block">
             <ul class="grid grid-flow-col items-center">
@@ -53,7 +50,9 @@ store.cartCount(props.cartItemsCount);
                         </svg>
                         Cart
                         <small v-if="store.CartCount"
-                            class="absolute z-[100] top-0 -right-3 py-[2px] px-[8px] rounded-full bg-red-500">{{ store.CartCount }}</small>
+                            class="absolute z-[100] top-0 -right-3 py-[2px] px-[8px] rounded-full bg-red-500">{{
+                                store.CartCount
+                            }}</small>
                     </a>
                 </li>
                 <li>
@@ -75,7 +74,7 @@ store.cartCount(props.cartItemsCount);
                                     clip-rule="evenodd" />
                             </svg>
                         </MenuButton>
-                        <MenuItems class="absolute z-10 bg-slate-800 py-2 w-48">
+                        <MenuItems class="absolute z-10 bg-slate-800 py-2 w-full">
                             <MenuItem>
                             <a :href="route('profile.view')" class="flex px-3 py-2 hover:bg-slate-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
@@ -121,8 +120,8 @@ store.cartCount(props.cartItemsCount);
                                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
                                 <DropdownLink :href="route('logout')" method="post" as="button">
-                                Log Out
-                            </DropdownLink>
+                                    Log Out
+                                </DropdownLink>
                             </a>
                             </MenuItem>
                         </MenuItems>

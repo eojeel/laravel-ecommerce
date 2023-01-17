@@ -39,6 +39,12 @@
   }
 }
 
+@layer utilities {
+    .input-error {
+        @apply text-red-600 text-sm;
+    }
+}
+
 body {
   background-color: #e5e7eb;
 }
