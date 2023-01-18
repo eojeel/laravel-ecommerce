@@ -29,38 +29,38 @@ class ProfileRequest extends FormRequest
             'phone' => ['required', 'string', 'min:7'],
             'email' => ['required', 'string', 'email', 'max:255'],
 //unique:users'
-            'shipping.address1' => ['required'],
-            'shipping.address2' => ['required'],
-            'shipping.city' => ['required'],
-            'shipping.county' => ['required'],
-            'shipping.postcode' => ['required'],
-            'shipping.country_code' => ['required', 'exists:countries,code'],
+            'shipping_address1' => ['required'],
+            'shipping_address2' => ['required'],
+            'shipping_city' => ['required'],
+            'shipping_county' => ['required'],
+            'shipping_postcode' => ['required'],
+            'shipping_country_code' => ['required', 'exists:countries,code'],
 
-            'billing.address2' => ['required'],
-            'billing.address1' => ['required'],
-            'billing.city' => ['required'],
-            'billing.county' => ['required'],
-            'billing.postcode' => ['required'],
-            'billing.country_code' => ['required', 'exists:countries,code'],
+            'billing_address1' => ['required'],
+            'billing_address2' => ['required'],
+            'billing_city' => ['required'],
+            'billing_county' => ['required'],
+            'billing_postcode' => ['required'],
+            'billing_country_code' => ['required', 'exists:countries,code'],
         ];
     }
 
      public function attributes()
     {
         return [
-            'billing.address1' => 'address 1',
-            'billing.address2' => 'address 2',
-            'billing.city' => 'city',
-            'billing.county' => 'county',
-            'billing.postcode' => 'postcode',
-            'billing.country_code' => 'country',
+            'billing_address1' => 'address 1',
+            'billing_address2' => 'address 2',
+            'billing_city' => 'city',
+            'billing_county' => 'county',
+            'billing_postcode' => 'postcode',
+            'billing_country_code' => 'country',
 
-            'shipping.address1' => 'address 1',
-            'shipping.address2' => 'address 2',
-            'shipping.city' => 'city',
-            'shipping.county' => 'county',
-            'shipping.postcode' => 'postcode',
-            'shipping.country_code' => 'country',
+            'shipping_address1' => 'address 1',
+            'shipping_address2' => 'address 2',
+            'shipping_city' => 'city',
+            'shipping_county' => 'county',
+            'shipping_postcode' => 'postcode',
+            'shipping_country_code' => 'country',
         ];
     }
 }

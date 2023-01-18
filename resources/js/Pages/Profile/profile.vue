@@ -5,266 +5,239 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { reactive } from 'vue'
 
 const props = defineProps({
-        user: Object,
-        customer: Object,
-        shippingaddress: Object,
-        billingaddress: Object,
-        countries: Object,
+    user: Object,
+    customer: Object,
+    shippingaddress: Object,
+    billingaddress: Object,
+    countries: Object,
 })
 
 const form = useForm({
-  first_name: props.customer.first_name,
-  last_name: props.customer.last_name,
-  email: props.user.email,
-  phone: props.customer.phone,
-  billing_address_1: props.billingaddress.address_1,
-  billing_address_2: props.billingaddress.address_2,
-  billing_city: props.billingaddress.city,
-  billing_country: props.billingaddress.country,
-  billing_Postcode: props.billingaddress.postcode,
+    first_name: props.customer.first_name,
+    last_name: props.customer.last_name,
+    email: props.user.email,
+    phone: props.customer.phone,
+    shipping_address1: props.shippingaddress.address1,
+    shipping_address2: props.shippingaddress.address2,
+    shipping_city: props.shippingaddress.city,
+    shipping_county: props.shippingaddress.county,
+    shipping_country_code: props.shippingaddress.country_code,
+    shipping_postcode: props.shippingaddress.postcode,
+    billing_address1: props.billingaddress.address1,
+    billing_address2: props.billingaddress.address2,
+    billing_city: props.billingaddress.city,
+    billing_county: props.billingaddress.county,
+    billing_postcode: props.billingaddress.postcode,
+    billing_country_code: props.shippingaddress.country_code,
 })
 
 </script>
 
 <template>
-    <Head title="Profile"/>
-<DefaultLayout>
-<main class="p-5">
-      <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-5 items-start gap-6">
-            <div class="col-span-3 bg-white p-4 rounded-lg shadow">
-                <form @submit.prevent="form.post('/profile')">
-                <!-- Profile Details -->
-                <div class="mb-6">
-                <h2 class="text-xl mb-5">Your Profile</h2>
-                <div class="mb-4 grid gap-1 md:grid-cols-2">
-                    <input
-                    placeholder="First Name"
-                    type="text"
-                    name="first_name"
-                    v-model="form.first_name"
-                    class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half"
-                    />
-                    <input
-                    placeholder="Last Name"
-                    type="text"
-                    name="last_name"
-                    v-model="form.last_name"
-                    class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half"
-                    />
-                    <div class="w-half">
-                        <span class="input-error" v-if="form.errors.first_name">{{ form.errors.first_name }}</span>
-                    </div>
-                    <div class="w-half ml-2">
-                        <span class="input-error" v-if="form.errors.last_name">{{ form.errors.last_name }}</span>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <input
-                    placeholder="Your Email"
-                    type="email"
-                    name="email"
-                    v-model="form.email"
-                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.email">{{ form.errors.email }}</div>
-                </div>
-                <div class="mb-4">
-                    <input
-                    placeholder="Your Phone"
-                    type="text"
-                    name="phone"
-                    v-model="form.phone"
-                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.phone">{{ form.errors.phone }}</div>
-                </div>
-                </div>
-                <!--/ Profile Details -->
 
-                <!-- Billing Address -->
-                <div class="mb-6">
-                <h2 class="text-xl mb-5">Billing Address</h2>
-                <div class="flex gap-3">
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="Address 1"
-                        type="text"
-                        name="billing_address_1"
-                        v-model="form.billing_address_1"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.billing_address_2">{{ form.errors.billing_address_2 }}</div>
-                    </div>
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="Address 2"
-                        type="text"
-                        name="billing_address_2"
-                        v-model="form.billing_address_1"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.billing_address_2">{{ form.errors.billing_address_2 }}</div>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="City"
-                        type="text"
-                        name="billing_city"
-                        v-model="form.billing_city"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.billing_city">{{ form.errors.billing_city }}</div>
-                    </div>
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="COunty"
-                        type="text"
-                        name="billing_county"
-                        v-model="form.billing_country"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.billing_country">{{ form.errors.billing_country }}</div>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <div class="mb-4 flex-1">
-                    <select
-                        placeholder="Country"
-                        type="text"
-                        name="billing_country"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    >
-                        <option value="">Country</option>
-                        <option v-for="i in countries" :value="i.code">{{ i.name }}</option>
-                    </select>
-                    <div class="input-error" v-if="form.errors.billing_country">{{ form.errors.billing_country }}</div>
-                    </div>
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="Postcode"
-                        type="text"
-                        name="billing_Postcode"
-                        v-mode="form.billing_Postcode"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    <div class="input-error" v-if="form.errors.billing_Postcode">{{ form.errors.billing_Postcode }}</div>
-                    </div>
-                </div>
-                </div>
-                <!--/ Billing Address -->
+    <Head title="Profile" />
+    <DefaultLayout>
+        <main class="p-5">
+            <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-5 items-start gap-6">
+                    <div class="col-span-3 bg-white p-4 rounded-lg shadow">
+                        <form @submit.prevent="form.post('/profile')">
+                            <!-- Profile Details -->
+                            <div class="mb-6">
+                                <h2 class="text-xl mb-5">Your Profile</h2>
+                                <div class="mb-4 grid gap-1 md:grid-cols-2">
+                                    <input placeholder="First Name" type="text" name="first_name"
+                                        v-model="form.first_name"
+                                        class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half" />
+                                    <input placeholder="Last Name" type="text" name="last_name" v-model="form.last_name"
+                                        class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half" />
+                                    <div class="w-half">
+                                        <span class="input-error" v-if="form.errors.first_name">{{
+                                            form.errors.first_name
+                                        }}</span>
+                                    </div>
+                                    <div class="w-half ml-2">
+                                        <span class="input-error" v-if="form.errors.last_name">{{
+                                            form.errors.last_name
+                                        }}</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <input placeholder="Your Email" type="email" name="email" v-model="form.email"
+                                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                    <div class="input-error" v-if="form.errors.email">{{ form.errors.email }}</div>
+                                </div>
+                                <div class="mb-4">
+                                    <input placeholder="Your Phone" type="text" name="phone" v-model="form.phone"
+                                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                    <div class="input-error" v-if="form.errors.phone">{{ form.errors.phone }}</div>
+                                </div>
+                            </div>
+                            <!--/ Profile Details -->
 
-                <!-- Shipping Address -->
-                <div class="mb-6">
-                <div class="flex items-center justify-between mb-5">
-                    <h2 class="text-xl">Shipping Address</h2>
-                    <div class="flex items-center">
-                    <input
-                        id="sameAsBillingAddress"
-                        type="checkbox"
-                        class="mr-3 rounded border-gray-300 text-purple-500 focus:ring-purple-500"
-                    />
-                    <label for="sameAsBillingAddress">Same as Billing</label>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="Address 1"
-                        type="text"
-                        name="shipping_address_1"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    </div>
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="Address 2"
-                        type="text"
-                        name="shipping_address_2"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="City"
-                        type="text"
-                        name="shipping_city"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    </div>
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="State"
-                        type="text"
-                        name="shipping_state"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <div class="mb-4 flex-1">
-                    <select
-                        placeholder="Country"
-                        type="text"
-                        name="shipping_country"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    >
-                        <option value="">Country</option>
-                        <option v-for="i in countries" :value="i.code">{{ i.name }}</option>
-                    </select>
-                    </div>
-                    <div class="mb-4 flex-1">
-                    <input
-                        placeholder="Postcode"
-                        type="text"
-                        name="shipping_Postcode"
-                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-                    />
-                    </div>
-                </div>
-                </div>
-                <!--/ Shipping Address -->
+                            <!-- Billing Address -->
+                            <div class="mb-6">
+                                <h2 class="text-xl mb-5">Billing Address</h2>
+                                <div class="flex gap-3">
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="Address 1" type="text" name="billing_address1"
+                                            v-model="form.billing_address1"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.billing_address1">{{
+                                            form.errors.billing_address1
+                                        }}</div>
+                                    </div>
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="Address 2" type="text" name="billing_address2"
+                                            v-model="form.billing_address2"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.billing_address2">{{
+                                            form.errors.billing_address2
+                                        }}</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="City" type="text" name="billing_city"
+                                            v-model="form.billing_city"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.billing_city">{{
+                                            form.errors.billing_city
+                                        }}</div>
+                                    </div>
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="County" type="text" name="billing_county"
+                                            v-model="form.billing_county"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.billing_county">{{
+                                            form.errors.billing_county
+                                        }}</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mb-4 flex-1">
+                                        <select type="text" name="billing_country_code"
+                                        v-model="form.billing_country_code"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
+                                            <div class="input-error" v-if="form.errors.shipping_country_code">{{
+                                                form.errors.shipping_country_code
+                                            }}</div>
+                                            <option value="">Country</option>
+                                            <option v-for="i in countries" :value="i.code" :selected="form.shipping_country_code == i.code">{{ i.name }}</option>
+                                        </select>
+                                        <div class="input-error" v-if="form.errors.billing_country_code">{{
+                                            form.errors.billing_country_code
+                                        }}</div>
+                                    </div>
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="Postcode" type="text" name="billing_postcode"
+                                            v-mode="form.billing_postcode"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.billing_postcode">{{
+                                            form.errors.billing_postcode
+                                        }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ Billing Address -->
 
-                <button type="submit" :disabled="form.processing" class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full">Update</button>
-            </form>
-            </div>
+                            <!-- Shipping Address -->
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-5">
+                                    <h2 class="text-xl">Shipping Address</h2>
+                                    <div class="flex items-center">
+                                        <input id="sameAsBillingAddress" type="checkbox"
+                                            class="mr-3 rounded border-gray-300 text-purple-500 focus:ring-purple-500" />
+                                        <label for="sameAsBillingAddress">Same as Billing</label>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="Address 1" type="text" name="shipping_address1"
+                                            v-model="form.shipping_address1"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.shipping_address1">{{
+                                            form.errors.shipping_address1
+                                        }}</div>
+                                    </div>
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="Address 2" type="text" name="shipping_address2"
+                                            v-model="form.shipping_address2"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.shipping_address2">{{
+                                            form.errors.shipping_address2
+                                        }}</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="City" type="text" name="shipping_city"
+                                            v-model="form.shipping_city"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.shipping_city">{{
+                                            form.errors.shipping_city
+                                        }}</div>
+                                    </div>
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="County" type="text" name="shipping_country"
+                                            v-model="form.shipping_county"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.shipping_county">{{
+                                            form.errors.shipping_county
+                                        }}</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="mb-4 flex-1">
+                                        <select type="text" name="shipping_country"
+                                            v-model="form.shipping_country_code"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
+                                            <div class="input-error" v-if="form.errors.shipping_country_code">{{
+                                                form.errors.shipping_country_code
+                                            }}</div>
+                                            <option value="">Country</option>
+                                            <option v-for="i in countries" :value="i.code" :selected="form.billing_country_code == i.code">{{ i.name }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4 flex-1">
+                                        <input placeholder="Postcode" type="text" name="shipping_postcode"
+                                            v-model="form.shipping_postcode"
+                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        <div class="input-error" v-if="form.errors.shipping_postcode">{{
+                                            form.errors.shipping_postcode
+                                        }}</div>
 
-          <div class="col-span-2 bg-white p-4 rounded-lg shadow">
-            <h2 class="text-xl mb-5">Your Account</h2>
-            <div class="mb-4">
-              <input
-                type="password"
-                name="password"
-                placeholder="Your Current password"
-                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-              />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ Shipping Address -->
+
+                            <button type="submit" :disabled="form.processing"
+                                class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 w-full">Update</button>
+                        </form>
+                    </div>
+
+                    <div class="col-span-2 bg-white p-4 rounded-lg shadow">
+                        <h2 class="text-xl mb-5">Your Account</h2>
+                        <div class="mb-4">
+                            <input type="password" name="password" placeholder="Your Current password"
+                                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" name="password" placeholder="New password"
+                                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" name="password" placeholder="Repeat new password"
+                                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700">Update</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-4">
-              <input
-                type="password"
-                name="password"
-                placeholder="New password"
-                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-              />
-            </div>
-            <div class="mb-4">
-              <input
-                type="password"
-                name="password"
-                placeholder="Repeat new password"
-                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
-              />
-            </div>
-            <div>
-              <button type="submit" class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700">Update</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-</DefaultLayout>
+        </main>
+    </DefaultLayout>
 </template>

@@ -12,7 +12,7 @@ class CustomerAddress extends Model
 
     protected $guarded = [];
 
-    public function cusrtomer(): hasOne
+    public function customer(): hasOne
     {
         return $this->hasOne(Customer::class, 'user_id', 'customer_id');
     }
