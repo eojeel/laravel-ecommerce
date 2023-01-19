@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\AddressType;
-use App\Models\CustomerAddress;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,11 +32,11 @@ class Customer extends Model
 
     public function shippingAddresses(): hasOne
     {
-        return $this->_getAddresses()->where('type', AddressType::Shipping);
+        return $this->_getAddresses()->where('type', '=', AddressType::Shipping->value);
     }
 
     public function billingAddresses(): hasOne
     {
-        return $this->_getAddresses()->where('type', AddressType::Billing);
+        return $this->_getAddresses()->where('type', '=', AddressType::Billing->value);
     }
 }

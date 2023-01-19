@@ -1,7 +1,7 @@
 <script setup>
 import profileInput from '@/Components/ProfileInput.vue';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { reactive } from 'vue'
 
 const props = defineProps({
@@ -28,21 +28,35 @@ const form = useForm({
     billing_city: props.billingaddress.city,
     billing_county: props.billingaddress.county,
     billing_postcode: props.billingaddress.postcode,
-    billing_country_code: props.shippingaddress.country_code,
+    billing_country_code: props.billingaddress.country_code,
 })
+
+function mainsubmit()
+{
+    router.post('/profile', form, {
+    errorBag: 'profile',
+    })
+}
 
 </script>
 
 <template>
-
     <Head title="Profile" />
     <DefaultLayout>
         <main class="p-5">
             <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-5 items-start gap-6">
                     <div class="col-span-3 bg-white p-4 rounded-lg shadow">
-                        <form @submit.prevent="form.post('/profile')">
+                        <form @submit.prevent="mainsubmit">
                             <!-- Profile Details -->
+                                <div role="alert mb-6" v-if="$page.props.errors.profile">
+                                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                                        Errors!
+                                    </div>
+                                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                                        <p v-for="error in $page.props.errors.profile" class="input-error mb-4">{{ error }}</p>
+                                    </div>
+                                </div>
                             <div class="mb-6">
                                 <h2 class="text-xl mb-5">Your Profile</h2>
                                 <div class="mb-4 grid gap-1 md:grid-cols-2">
@@ -51,26 +65,14 @@ const form = useForm({
                                         class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half" />
                                     <input placeholder="Last Name" type="text" name="last_name" v-model="form.last_name"
                                         class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half" />
-                                    <div class="w-half">
-                                        <span class="input-error" v-if="form.errors.first_name">{{
-                                            form.errors.first_name
-                                        }}</span>
-                                    </div>
-                                    <div class="w-half ml-2">
-                                        <span class="input-error" v-if="form.errors.last_name">{{
-                                            form.errors.last_name
-                                        }}</span>
-                                    </div>
                                 </div>
                                 <div class="mb-4">
                                     <input placeholder="Your Email" type="email" name="email" v-model="form.email"
                                         class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                    <div class="input-error" v-if="form.errors.email">{{ form.errors.email }}</div>
                                 </div>
                                 <div class="mb-4">
                                     <input placeholder="Your Phone" type="text" name="phone" v-model="form.phone"
                                         class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                    <div class="input-error" v-if="form.errors.phone">{{ form.errors.phone }}</div>
                                 </div>
                             </div>
                             <!--/ Profile Details -->
@@ -83,17 +85,11 @@ const form = useForm({
                                         <input placeholder="Address 1" type="text" name="billing_address1"
                                             v-model="form.billing_address1"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.billing_address1">{{
-                                            form.errors.billing_address1
-                                        }}</div>
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Address 2" type="text" name="billing_address2"
                                             v-model="form.billing_address2"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.billing_address2">{{
-                                            form.errors.billing_address2
-                                        }}</div>
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
@@ -101,17 +97,11 @@ const form = useForm({
                                         <input placeholder="City" type="text" name="billing_city"
                                             v-model="form.billing_city"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.billing_city">{{
-                                            form.errors.billing_city
-                                        }}</div>
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="County" type="text" name="billing_county"
                                             v-model="form.billing_county"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.billing_county">{{
-                                            form.errors.billing_county
-                                        }}</div>
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
@@ -119,23 +109,14 @@ const form = useForm({
                                         <select type="text" name="billing_country_code"
                                         v-model="form.billing_country_code"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
-                                            <div class="input-error" v-if="form.errors.shipping_country_code">{{
-                                                form.errors.shipping_country_code
-                                            }}</div>
                                             <option value="">Country</option>
                                             <option v-for="i in countries" :value="i.code" :selected="form.shipping_country_code == i.code">{{ i.name }}</option>
                                         </select>
-                                        <div class="input-error" v-if="form.errors.billing_country_code">{{
-                                            form.errors.billing_country_code
-                                        }}</div>
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Postcode" type="text" name="billing_postcode"
-                                            v-mode="form.billing_postcode"
+                                            v-model="form.billing_postcode"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.billing_postcode">{{
-                                            form.errors.billing_postcode
-                                        }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -156,17 +137,11 @@ const form = useForm({
                                         <input placeholder="Address 1" type="text" name="shipping_address1"
                                             v-model="form.shipping_address1"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.shipping_address1">{{
-                                            form.errors.shipping_address1
-                                        }}</div>
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Address 2" type="text" name="shipping_address2"
                                             v-model="form.shipping_address2"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.shipping_address2">{{
-                                            form.errors.shipping_address2
-                                        }}</div>
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
@@ -174,17 +149,11 @@ const form = useForm({
                                         <input placeholder="City" type="text" name="shipping_city"
                                             v-model="form.shipping_city"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.shipping_city">{{
-                                            form.errors.shipping_city
-                                        }}</div>
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="County" type="text" name="shipping_country"
                                             v-model="form.shipping_county"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.shipping_county">{{
-                                            form.errors.shipping_county
-                                        }}</div>
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
@@ -192,9 +161,6 @@ const form = useForm({
                                         <select type="text" name="shipping_country"
                                             v-model="form.shipping_country_code"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
-                                            <div class="input-error" v-if="form.errors.shipping_country_code">{{
-                                                form.errors.shipping_country_code
-                                            }}</div>
                                             <option value="">Country</option>
                                             <option v-for="i in countries" :value="i.code" :selected="form.billing_country_code == i.code">{{ i.name }}</option>
                                         </select>
@@ -203,10 +169,6 @@ const form = useForm({
                                         <input placeholder="Postcode" type="text" name="shipping_postcode"
                                             v-model="form.shipping_postcode"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                                        <div class="input-error" v-if="form.errors.shipping_postcode">{{
-                                            form.errors.shipping_postcode
-                                        }}</div>
-
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +9,7 @@ class CustomerAddress extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['type', 'address1', 'address2', 'city', 'state', 'postcode', 'country_code', 'customer_id'];
 
     public function customer(): hasOne
     {
