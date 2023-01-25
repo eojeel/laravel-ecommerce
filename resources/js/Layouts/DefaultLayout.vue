@@ -1,5 +1,6 @@
 <script setup>
 import Nav from "@/Layouts/Nav.vue";
+import Flash from "@/Components/Flash.vue";
 
 
 const props = defineProps({
@@ -10,6 +11,7 @@ const props = defineProps({
 <template>
     <Nav :cartItemsCount="cartItemsCount"/>
     <div>
+        <flash />
         <div>
             <slot />
         </div>

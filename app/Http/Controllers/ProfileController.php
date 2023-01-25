@@ -18,8 +18,8 @@ class ProfileController extends Controller
         $user = request()->user();
         /** @var /App/Models/Customer $customer */
         $customer = $user->customer;
-        $shippingAddress = $customer->shippingAddresses ?: new CustomerAddress(['type' => AddressType::Shipping]);
-        $billingAddress = $customer->billingAddresses ?: new CustomerAddress(['type' => AddressType::Billing]);
+        $shippingAddress = $customer->shippingAddress ?: new CustomerAddress(['type' => AddressType::Shipping]);
+        $billingAddress = $customer->billingAddress ?: new CustomerAddress(['type' => AddressType::Billing]);
         $countries = Country::query()->orderBy('name')->get();
 
         return Inertia::render('Profile/profile', [
@@ -49,7 +49,7 @@ class ProfileController extends Controller
         /** @var /App/Model/User $user */
         $user = request()->user();
         $customer = $user->customer;
-
+        //$customer->update($customerData);
 
         if ($customer->shippingAddress) {
             $customer->shippingAddress->update($shippingData);
@@ -65,9 +65,6 @@ class ProfileController extends Controller
             $billingData['type'] = AddressType::Billing->value;
             CustomerAddress::create($billingData);
         }
-
-        $request->session()->flash('flash_message', 'Profile was sucessfully updated.');
-
-        return redirect()->route('profile.view');
+        return redirect()->route('profile.view')->with('message', 'Profile was sucessfully updated.');
     }
 }
