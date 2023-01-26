@@ -31,16 +31,28 @@ const form = useForm({
     billing_country_code: props.billingaddress.country_code,
 })
 
-function mainsubmit()
-{
+const profileForm = useForm({
+    old_password : '',
+    new_password : '',
+    new_password_confirmation : ''
+})
+
+function mainsubmit() {
     router.post('/profile', form, {
-    errorBag: 'profile',
+        errorBag: 'profile',
+    })
+}
+
+function profilesubmit() {
+    router.post('/profile/password', profileForm, {
+        errorBag: 'profileForm',
     })
 }
 
 </script>
 
 <template>
+
     <Head title="Profile" />
     <DefaultLayout>
         <main class="p-5">
@@ -49,14 +61,16 @@ function mainsubmit()
                     <div class="col-span-3 bg-white p-4 rounded-lg shadow">
                         <form @submit.prevent="mainsubmit">
                             <!-- Profile Details -->
-                                <div role="alert mb-6" v-if="$page.props.errors.profile">
-                                    <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                                        Errors!
-                                    </div>
-                                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                                        <p v-for="error in $page.props.errors.profile" class="input-error mb-4">{{ error }}</p>
-                                    </div>
+                            <div role="alert mb-6" v-if="$page.props.errors.profile">
+                                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                                    Errors!
                                 </div>
+                                <div
+                                    class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                                    <p v-for="error in $page.props.errors.profile" class="input-error mb-4">{{ error }}
+                                    </p>
+                                </div>
+                            </div>
                             <div class="mb-6">
                                 <h2 class="text-xl mb-5">Your Profile</h2>
                                 <div class="mb-4 grid gap-1 md:grid-cols-2">
@@ -107,10 +121,11 @@ function mainsubmit()
                                 <div class="flex gap-3">
                                     <div class="mb-4 flex-1">
                                         <select type="text" name="billing_country_code"
-                                        v-model="form.billing_country_code"
+                                            v-model="form.billing_country_code"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
                                             <option value="">Country</option>
-                                            <option v-for="i in countries" :value="i.code" :selected="form.shipping_country_code == i.code">{{ i.name }}</option>
+                                            <option v-for="i in countries" :value="i.code"
+                                                :selected="form.shipping_country_code == i.code">{{ i.name }}</option>
                                         </select>
                                     </div>
                                     <div class="mb-4 flex-1">
@@ -158,11 +173,11 @@ function mainsubmit()
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="mb-4 flex-1">
-                                        <select type="text" name="shipping_country"
-                                            v-model="form.shipping_country_code"
+                                        <select type="text" name="shipping_country" v-model="form.shipping_country_code"
                                             class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
                                             <option value="">Country</option>
-                                            <option v-for="i in countries" :value="i.code" :selected="form.billing_country_code == i.code">{{ i.name }}</option>
+                                            <option v-for="i in countries" :value="i.code"
+                                                :selected="form.billing_country_code == i.code">{{ i.name }}</option>
                                         </select>
                                     </div>
                                     <div class="mb-4 flex-1">
@@ -180,23 +195,38 @@ function mainsubmit()
                     </div>
 
                     <div class="col-span-2 bg-white p-4 rounded-lg shadow">
-                        <h2 class="text-xl mb-5">Your Account</h2>
-                        <div class="mb-4">
-                            <input type="password" name="password" placeholder="Your Current password"
-                                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                        </div>
-                        <div class="mb-4">
-                            <input type="password" name="password" placeholder="New password"
-                                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                        </div>
-                        <div class="mb-4">
-                            <input type="password" name="password" placeholder="Repeat new password"
-                                class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
-                        </div>
-                        <div>
-                            <button type="submit"
-                                class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700">Update</button>
-                        </div>
+                        <div role="alert mb-6" v-if="$page.props.errors.profileForm">
+                                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                                    Errors!
+                                </div>
+                                <div
+                                    class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                                    <p v-for="error in $page.props.errors.profileForm" class="input-error mb-4">{{ error }}
+                                    </p>
+                                </div>
+                            </div>
+                        <h2 class="text-xl mb-5">Update Password!</h2>
+                        <form @submit.prevent="profilesubmit">
+                            <div class="mb-4">
+                                <input type="password" name="old_password" placeholder="Your Current password"
+                                    v-model="profileForm.old_password"
+                                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                            </div>
+                            <div class="mb-4">
+                                <input type="password" name="new_password" placeholder="New password"
+                                v-model="profileForm.new_password"
+                                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                            </div>
+                            <div class="mb-4">
+                                <input type="password" name="new_password_confirmation" placeholder="Repeat new password"
+                                    v-model="profileForm.new_password_confirmation"
+                                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                            </div>
+                            <div>
+                                <button type="submit"
+                                    class="btn-primary bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700">Update</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

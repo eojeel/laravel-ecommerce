@@ -8,10 +8,22 @@ use App\Enums\AddressType;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\CustomerAddress;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\PasswordUpdateRequest;
+use Inertia\Response;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use InvalidArgumentException;
 
 class ProfileController extends Controller
 {
+    /**
+     *
+     * @param Request $request
+     * @return Response
+     * @throws BindingResolutionException
+     * @throws InvalidArgumentException
+     */
     public function view(Request $request)
     {
         /** @var /App/Model/User $user */
@@ -31,6 +43,12 @@ class ProfileController extends Controller
         ]);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param ProfileRequest $request
+     * @return void
+     */
     public function update(ProfileRequest $request)
     {
         $customerData = $request->validated();
@@ -66,5 +84,23 @@ class ProfileController extends Controller
             CustomerAddress::create($billingData);
         }
         return redirect()->route('profile.view')->with('message', 'Profile was sucessfully updated.');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param PasswordUpdateRequest $request
+     * @return void
+     */
+    public function updatePassword(PasswordUpdateRequest $request)
+    {
+        $user = request()->user();
+
+        $passwordData = $request->validated();
+
+        $user->password = Hash::make($passwordData['new_password']);
+        $user->save();
+
+        return redirect()->route('profile.view')->with('message', 'Your password was successfully updated.');
     }
 }
