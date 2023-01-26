@@ -28,6 +28,9 @@ Route::middleware('guestOrVerified')->group(function () {
         Route::post('/add/{product:slug}', [CartController::class, 'store'])->name('.add');
         Route::post('/remove/{product:slug}', [CartController::class, 'destroy'])->name('.remove');
         Route::post('/update-quanity/{product:slug}', [CartController::class, 'update'])->name('.update-quanity');
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('.checkout');
+        Route::get('/checkout-success', [CartController::class, 'checkoutSuccess'])->name('.checkout-success');
+        Route::get('/checkout-cancel', [CartController::class, 'checkoutCancel'])->name('.checkout-cancel');
     });
 });
 

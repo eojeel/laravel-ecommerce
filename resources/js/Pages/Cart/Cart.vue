@@ -24,6 +24,14 @@ function removeItemFromCart(product) {
         })
 }
 
+function checkout()
+{
+    axiosClient.post('/cart/checkout')
+        .then(result => {
+            window.location.href = result.data
+        })
+}
+
 </script>
 
 <template>
@@ -77,15 +85,17 @@ function removeItemFromCart(product) {
                 <div class="border-t border-gray-300 pt-4">
                     <div class="flex justify-between">
                         <span class="font-semibold">Subtotal</span>
-                        <span class="text-xl" x-text="`$${total}`"></span>
+                        <span class="text-xl">${{ total }}</span>
                     </div>
                     <p class="text-gray-500 mb-6">
                         Shipping and taxes calculated at checkout.
                     </p>
 
+                    <form @submit.prevent="checkout">
                     <button type="submit" class="btn-primary w-full py-3 text-lg">
                         Proceed to Checkout
                     </button>
+                </form>
                 </div>
             </div>
         </div>
