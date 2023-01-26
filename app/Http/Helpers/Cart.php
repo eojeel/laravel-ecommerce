@@ -3,23 +3,20 @@
 namespace App\Http\Helpers;
 
 use App\Models\CartItem;
-use Illuminate\Http\Request;
-
 
 class Cart
 {
-    public static function getCartItemsCount() : int
+    public static function getCartItemsCount(): int
     {
         $request = Request();
         $user = $request->user();
-        if($user)
-        {
+        if ($user) {
             return CartItem::where('user_id', $user->id)->count();
         }
 
         return array_reduce(
             self::getCookieCartItems(),
-            fn($carry, $item) => $carry + $item['quantity'],
+            fn ($carry, $item) => $carry + $item['quantity'],
             0
         );
     }
@@ -28,21 +25,22 @@ class Cart
     {
         $request = Request();
         $user = $request->user();
-        if($user)
-        {
+        if ($user) {
             return CartItem::where('user_id', $user->id)->get()->map(
-                fn($item) => [
+                fn ($item) => [
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
                 ]
             );
         }
+
         return self::getCookieCartItems();
     }
 
-    public static function getCookieCartItems() : array
+    public static function getCookieCartItems(): array
     {
         $request = Request();
+
         return json_decode($request->cookie('cart_items'), true) ?? [];
     }
 
@@ -50,7 +48,7 @@ class Cart
     {
         return array_reduce(
             $cartItems,
-            fn($carry, $item) => $carry + $item['quantity'],
+            fn ($carry, $item) => $carry + $item['quantity'],
             0
         );
     }
@@ -61,20 +59,17 @@ class Cart
         $cartItems = self::getCookieCartItems();
         $dbCartItems = CartItem::where(['user_id' => $request->user()->id])->get()->keyBy('product_id');
 
-        foreach($cartItems as $cartItem)
-        {
-            if(!isset($dbCartItems[$cartItem['product_id']]))
-            {
+        foreach ($cartItems as $cartItem) {
+            if (! isset($dbCartItems[$cartItem['product_id']])) {
                 $newCartItems[] = [
                     'user_id' => $request->user()->id,
                     'product_id' => $cartItem['product_id'],
-                    'quantity' => $cartItem['quantity']
+                    'quantity' => $cartItem['quantity'],
                 ];
             }
         }
 
-        if(!empty($newCartItems))
-        {
+        if (! empty($newCartItems)) {
             CartItem::insert($newCartItems);
         }
     }

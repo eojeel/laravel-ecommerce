@@ -28,7 +28,7 @@ class ProfileRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'min:7'],
             'email' => ['required', 'string', 'email', 'max:255'],
-//unique:users'
+            //unique:users'
             'shipping_address1' => ['required'],
             'shipping_address2' => ['required'],
             'shipping_city' => ['required'],
@@ -46,21 +46,21 @@ class ProfileRequest extends FormRequest
     }
 
      public function attributes()
-    {
-        return [
-            'billing_address1' => 'address 1',
-            'billing_address2' => 'address 2',
-            'billing_city' => 'city',
-            'billing_county' => 'county',
-            'billing_postcode' => 'postcode',
-            'billing_country_code' => 'country',
+     {
+         return [
+             'billing_address1' => 'address 1',
+             'billing_address2' => 'address 2',
+             'billing_city' => 'city',
+             'billing_county' => 'county',
+             'billing_postcode' => 'postcode',
+             'billing_country_code' => 'country',
 
-            'shipping_address1' => 'address 1',
-            'shipping_address2' => 'address 2',
-            'shipping_city' => 'city',
-            'shipping_county' => 'county',
-            'shipping_postcode' => 'postcode',
-            'shipping_country_code' => 'country',
-        ];
-    }
+             'shipping_address1' => 'address 1',
+             'shipping_address2' => 'address 2',
+             'shipping_city' => 'city',
+             'shipping_county' => 'county',
+             'shipping_postcode' => 'postcode',
+             'shipping_country_code' => 'country',
+         ];
+     }
 }

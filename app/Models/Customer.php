@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\AddressType;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Customer extends Model
 {
@@ -17,7 +17,7 @@ class Customer extends Model
         'user_id',
         'last_name',
         'phone',
-        'status'
+        'status',
     ];
 
     public function user()

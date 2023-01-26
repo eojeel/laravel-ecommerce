@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductListResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Api\Product;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\URL;
-use App\Http\Requests\ProductRequest;
-use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\ProductListResource;
+use Illuminate\Support\Facades\URL;
 
 class ProductController extends Controller
 {
@@ -26,11 +26,11 @@ class ProductController extends Controller
         $sortDirection = request('sort_direction', 'desc');
         $query = Product::query();
         $query->orderBy($sortField, $sortDirection);
-        if($search)
-        {
-            $query->where('title', 'like',"%{$search}%")
-            ->orWhere('description', 'like',"%{$search}%");
+        if ($search) {
+            $query->where('title', 'like', "%{$search}%")
+            ->orWhere('description', 'like', "%{$search}%");
         }
+
         return ProductListResource::collection($query->paginate($perPage));
     }
 
@@ -46,12 +46,12 @@ class ProductController extends Controller
         $attributes['created_by'] = $request->user()->id;
         $attributes['updated_by'] = $request->user()->id;
 
-        /** @var UploadedFile $image  */
+        /** @var UploadedFile $image */
         $image = $request->image ?? null;
         if ($image) {
             $relativePath = $this->saveImage($image);
             $attributes['image'] = URL::to(Storage::url($relativePath));
-}
+        }
 
         $product = Product::create($attributes);
 
@@ -81,15 +81,14 @@ class ProductController extends Controller
         $attributes = $request->validated();
         $attributes['updated_by'] = $request->user()->id;
 
-        /** @var UploadedFile $image  */
+        /** @var UploadedFile $image */
         $image = $request->image ?? null;
-        if($image) {
+        if ($image) {
             $relativePath = $this->saveImage($image);
             $attributes['image'] = URL::to(Storage::url($relativePath));
 
-            if($product->image)
-            {
-                Storage::delete('public/' . dirname($product->image));
+            if ($product->image) {
+                Storage::delete('public/'.dirname($product->image));
             }
         }
 
@@ -111,12 +110,11 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
-
     private function saveImage(UploadedFile $image): string
     {
         $relativePath = "images/{$image->hashName()}";
         Storage::putFileAs('public', $image, $relativePath);
+
         return $relativePath;
     }
-
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+use Illuminate\Support\Facades\Auth;
 
 class guestOrVerified extends EnsureEmailIsVerified
 {
@@ -17,8 +17,7 @@ class guestOrVerified extends EnsureEmailIsVerified
      */
     public function handle($request, Closure $next, $redirectToRoute = null)
     {
-        if(!Auth::check())
-        {
+        if (! Auth::check()) {
             return $next($request);
         }
 

@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Models\Customer;
-use App\Http\Helpers\Cart;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\Cart;
+use App\Models\Customer;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         $cust = new Customer();
-        $name = explode(" ", $user->name);
+        $name = explode(' ', $user->name);
         $cust->user_id = $user->id;
         $cust->first_name = $name[0];
         $cust->last_name = Str::after($user->name, $name[0]);

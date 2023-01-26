@@ -2,16 +2,15 @@
 
 namespace Tests\Feature\Products;
 
-use Tests\TestCase;
 use App\Models\Product;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    function test_a_user_can_see_products()
+    public function test_a_user_can_see_products()
     {
         $response = $this->get('/api/products');
 
@@ -19,7 +18,7 @@ class ProductTest extends TestCase
         ->json('data');
     }
 
-    function test_a_user_can_view_single_product()
+    public function test_a_user_can_view_single_product()
     {
         $product = Product::factory()->create();
 

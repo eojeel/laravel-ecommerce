@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Country;
 use App\Enums\AddressType;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\CustomerAddress;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordUpdateRequest;
-use Inertia\Response;
+use App\Http\Requests\ProfileRequest;
+use App\Models\Country;
+use App\Models\CustomerAddress;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Inertia\Response;
 use InvalidArgumentException;
 
 class ProfileController extends Controller
 {
     /**
-     *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
+     *
      * @throws BindingResolutionException
      * @throws InvalidArgumentException
      */
@@ -39,27 +39,24 @@ class ProfileController extends Controller
             'customer' => $customer,
             'shippingaddress' => $shippingAddress,
             'billingaddress' => $billingAddress,
-            'countries' => $countries
+            'countries' => $countries,
         ]);
     }
 
     /**
      * Undocumented function
      *
-     * @param ProfileRequest $request
+     * @param  ProfileRequest  $request
      * @return void
      */
     public function update(ProfileRequest $request)
     {
         $customerData = $request->validated();
-        foreach($customerData as $k => $v)
-        {
-            if(Str::startsWith($k, 'shipping_'))
-            {
+        foreach ($customerData as $k => $v) {
+            if (Str::startsWith($k, 'shipping_')) {
                 $shippingData[str_replace('shipping_', '', $k)] = $v;
             }
-            if(Str::startsWith($k, 'billing'))
-            {
+            if (Str::startsWith($k, 'billing')) {
                 $billingData[str_replace('billing_', '', $k)] = $v;
             }
         }
@@ -83,13 +80,14 @@ class ProfileController extends Controller
             $billingData['type'] = AddressType::Billing->value;
             CustomerAddress::create($billingData);
         }
+
         return redirect()->route('profile.view')->with('message', 'Profile was sucessfully updated.');
     }
 
     /**
      * Undocumented function
      *
-     * @param PasswordUpdateRequest $request
+     * @param  PasswordUpdateRequest  $request
      * @return void
      */
     public function updatePassword(PasswordUpdateRequest $request)

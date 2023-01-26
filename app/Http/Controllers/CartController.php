@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\CartItem;
 use App\Http\Helpers\Cart;
-use Illuminate\Support\Arr;
+use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cookie;
 use Inertia\Inertia;
 
@@ -26,15 +26,12 @@ class CartController extends Controller
         $products = Arr::keyBy(Product::query()->whereIn('id', $ids)->get(), 'id');
         $cartItems = Arr::keyBy($cartItems, 'product_id');
 
-
         $total = 0;
-        foreach ($products as &$product)
-        {
+        foreach ($products as &$product) {
             $total += $product->price + $cartItems[$product->id]['quantity'];
             $product['removeUrl'] = route('cart.remove', $product);
             $product['updateQuanityUrl'] = route('cart.update-quanity', $product);
         }
-
 
         return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total, 'cartItemsCount' => Cart::getCartItemsCount()]);
     }
@@ -59,38 +56,30 @@ class CartController extends Controller
     {
         $quantity = $request->post('quantity', 1);
         $user = $request->user();
-        if ($user)
-        {
+        if ($user) {
             $cartItem = CartItem::where(['user_id' => $user->id, 'product_id' => $product->id])->first();
 
-            if ($cartItem)
-            {
+            if ($cartItem) {
                 $cartItem->quantity += $quantity;
                 $cartItem->update();
-            }
-            else
-            {
+            } else {
                 $data = [
                     'user_id' => $user->id,
                     'product_id' => $product->id,
-                    'quantity' => $quantity
+                    'quantity' => $quantity,
                 ];
                 cartItem::create($data);
             }
 
             return response([
-                'count' => Cart::getCartItemsCount()
+                'count' => Cart::getCartItemsCount(),
             ]);
-        }
-        else
-        {
+        } else {
             $cartItems = json_decode($request->cookie('cart_items', '[]'), true);
 
             $productFound = false;
-            foreach ($cartItems as &$item)
-            {
-                if ($item['product_id'] == $product->id)
-                {
+            foreach ($cartItems as &$item) {
+                if ($item['product_id'] == $product->id) {
                     $item['quantity'] += $quantity;
                     $productFound = true;
                     break;
@@ -98,13 +87,12 @@ class CartController extends Controller
             }
         }
 
-        if (!$productFound)
-        {
+        if (! $productFound) {
             $cartItems[] = [
                 'user_id' => null,
                 'product_id' => $product->id,
                 'quantity' => $quantity,
-                'price' => $product->price
+                'price' => $product->price,
             ];
         }
         Cookie::queue('cart_items', json_encode($cartItems), 60 * 24 * 30);
@@ -143,22 +131,19 @@ class CartController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $quantity = (int)$request->post('quantity');
+        $quantity = (int) $request->post('quantity');
         $user = $request->user();
-        if($user)
-        {
+        if ($user) {
             cartItem::where(['user_id' => $user->id, 'product_id' => $product->id])->update(['quantity' => $quantity]);
 
             return response([
-                'count' => Cart::getCartItemsCount()
+                'count' => Cart::getCartItemsCount(),
             ]);
         } else {
             $cartItems = json_decode($request->cookie('cart_items', '[]'), true);
 
-            foreach ($cartItems as &$item)
-            {
-                if ($item['product_id'] == $product->id)
-                {
+            foreach ($cartItems as &$item) {
+                if ($item['product_id'] == $product->id) {
                     $item['quantity'] = $quantity;
                     break;
                 }
@@ -179,24 +164,20 @@ class CartController extends Controller
     public function destroy(Request $request, Response $response, Product $product)
     {
         $user = $request->user();
-        if($user)
-        {
+        if ($user) {
             $cartItem = CartItem::where(['user_id' => $user->id, 'product_id' => $product->id])->first();
-            if($cartItem)
-            {
+            if ($cartItem) {
                 $cartItem->Delete();
             }
 
             return response([
-                'count' => Cart::getCartItemsCount()
+                'count' => Cart::getCartItemsCount(),
             ]);
         } else {
             $cartItems = json_decode($request->cookie('cart_items', '[]'), true);
 
-            foreach ($cartItems as $key => $item)
-            {
-                if ($item['product_id'] == $product->id)
-                {
+            foreach ($cartItems as $key => $item) {
+                if ($item['product_id'] == $product->id) {
                     array_splice($cartItems, $key, 1);
                     //unset($cartItems[$key]);
                     break;

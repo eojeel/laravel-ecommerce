@@ -1,11 +1,11 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +19,15 @@ use App\Http\Controllers\ProductsController;
 */
 
 Route::middleware('guestOrVerified')->group(function () {
+    Route::get('/', [ProductsController::class, 'index'])->name('index');
 
-Route::get('/', [ProductsController::class, 'index'])->name('index');
+    Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
 
-Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
-
-Route::prefix('/cart')->name('cart')->group(function() {
-    Route::get('/', [CartController::class, 'index'])->name('.index');
-    Route::post('/add/{product:slug}', [CartController::class, 'store'])->name('.add');
-    Route::post('/remove/{product:slug}', [CartController::class, 'destroy'])->name('.remove');
-    Route::post('/update-quanity/{product:slug}', [CartController::class, 'update'])->name('.update-quanity');
+    Route::prefix('/cart')->name('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('.index');
+        Route::post('/add/{product:slug}', [CartController::class, 'store'])->name('.add');
+        Route::post('/remove/{product:slug}', [CartController::class, 'destroy'])->name('.remove');
+        Route::post('/update-quanity/{product:slug}', [CartController::class, 'update'])->name('.update-quanity');
     });
 });
 
