@@ -39,7 +39,6 @@ function checkout()
     <Head title="product" />
 
     <p x-text="id"></p>
-    <main class="p-5">
         <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
             <h1 class="text-3xl font-bold mb-6">Your Cart Items</h1>
 
@@ -99,6 +98,5 @@ function checkout()
                 </div>
             </div>
         </div>
-    </main>
 </DefaultLayout>
 </template>

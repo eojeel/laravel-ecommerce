@@ -9,10 +9,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <Nav :cartItemsCount="cartItemsCount"/>
+    <Nav :cartItemsCount="cartItemsCount" />
     <div>
         <flash />
-        <div>
+        <div class="p-5">
             <slot />
         </div>
     </div>

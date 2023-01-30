@@ -1,22 +1,12 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::middleware('guestOrVerified')->group(function () {
     Route::get('/', [ProductsController::class, 'index'])->name('index');
@@ -28,9 +18,9 @@ Route::middleware('guestOrVerified')->group(function () {
         Route::post('/add/{product:slug}', [CartController::class, 'store'])->name('.add');
         Route::post('/remove/{product:slug}', [CartController::class, 'destroy'])->name('.remove');
         Route::post('/update-quanity/{product:slug}', [CartController::class, 'update'])->name('.update-quanity');
-        Route::post('/checkout', [CartController::class, 'checkout'])->name('.checkout');
-        Route::get('/checkout-success', [CartController::class, 'checkoutSuccess'])->name('.checkout-success');
-        Route::get('/checkout-cancel', [CartController::class, 'checkoutCancel'])->name('.checkout-cancel');
+        Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('.checkout');
+        Route::get('/success', [CheckoutController::class, 'success'])->name('.success');
+        Route::get('/failure', [CheckoutController::class, 'failure'])->name('.failure');
     });
 });
 

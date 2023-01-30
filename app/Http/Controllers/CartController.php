@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Stripe\Stripe;
-use Inertia\Inertia;
-use App\Models\Product;
-use App\Models\CartItem;
-use Stripe\StripeClient;
 use App\Http\Helpers\Cart;
-use Illuminate\Support\Arr;
+use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
@@ -22,7 +19,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        list($products, $cartItems) = $this->getProductsCartItems();
+        [$products, $cartItems] = Cart::getProductsCartItems();
         $total = 0;
         foreach ($products as &$product) {
             $total += $product->price + $cartItems[$product->id]['quantity'];
@@ -153,48 +150,5 @@ class CartController extends Controller
 
             return response(['count' => Cart::getCountFromItems($cartItems)]);
         }
-    }
-
-    public function checkout(Request $request)
-    {
-        $stripe = new StripeClient(getenv('STRIPE_SECRET_KEY'));
-
-        list($products, $cartItems) = $this->getProductsCartItems();
-
-        $line_items = [];
-        foreach($products as $product)
-        {
-            $line_items[] = [
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => [
-                        'name' => $product->title,
-                    ],
-                    'unit_amount' => $product->price * 100,
-                ],
-                'quantity' => $cartItems[$product->id]['quantity'],
-            ];
-        }
-
-        $session = $stripe->checkout->sessions->create([
-            'payment_method_types' => ['card'],
-            'mode' => 'payment',
-            'line_items' => $line_items,
-            'success_url' => route('cart.checkout-success'),
-            'cancel_url' => route('cart.checkout-cancel'),
-        ]);
-
-        return $session->url;
-    }
-
-    private function getProductsCartItems(): array
-    {
-        $cartItems = Cart::getCartItems();
-
-        $ids = Arr::pluck($cartItems, 'product_id');
-        $products = Arr::keyBy(Product::query()->whereIn('id', $ids)->get(), 'id');
-        $cartItems = Arr::keyBy($cartItems, 'product_id');
-
-        return [$products, $cartItems];
     }
 }
