@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProductsController;
 
 Route::middleware('guestOrVerified')->group(function () {
     Route::get('/', [ProductsController::class, 'index'])->name('index');
@@ -28,6 +29,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile.view');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::get('/Orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/Orders/{order}', [OrderController::class, 'view'])->name('orders.view');
 });
 
 /**

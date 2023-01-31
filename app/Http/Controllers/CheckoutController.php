@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
-use App\Enums\PaymentStatus;
-use App\Http\Helpers\Cart;
+use Stripe\Stripe;
+use Inertia\Inertia;
+use Stripe\Customer;
 use App\Models\Order;
 use App\Models\Payment;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Models\CartItem;
 use Stripe\StripeClient;
+use App\Enums\OrderStatus;
+use App\Http\Helpers\Cart;
+use App\Enums\PaymentStatus;
+use Illuminate\Http\Request;
+use Stripe\Checkout\Session;
 
 class CheckoutController extends Controller
 {
@@ -17,7 +21,7 @@ class CheckoutController extends Controller
     {
         $user = request()->user();
 
-        $stripe = new StripeClient(getenv('STRIPE_SECRET_KEY'));
+        Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
 
         [$products, $cartItems] = Cart::getProductsCartItems();
 
@@ -48,11 +52,20 @@ class CheckoutController extends Controller
 
         $order = Order::create($orderData);
 
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'mode' => 'payment',
+            'customer_creation' => 'always',
+            'line_items' => $line_items,
+            'success_url' => route('cart.success', [], true).'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('cart.failure', [], true),
+        ]);
+
         $paymentData = [
             'order_id' => $order->id,
             'amount' => $totalPrice,
             'status' => PaymentStatus::pending,
-            'type' => 'stripe',
+            'type' => 'cc',
             'created_by' => $user->id,
             'updated_by' => $user->id,
             'session_id' => $session->id,
@@ -60,32 +73,28 @@ class CheckoutController extends Controller
 
         Payment::create($paymentData);
 
-        $session = $stripe->checkout->sessions->create([
-            'payment_method_types' => ['card'],
-            'mode' => 'payment',
-            'line_items' => $line_items,
-            'success_url' => route('cart.success', [], true).'?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('cart.failure', [], true),
-        ]);
+        CartItem::where(['user_id' => $user->id])->delete();
 
         return $session->url;
     }
 
     public function success(Request $request)
     {
-        $stripe = new StripeClient(getenv('STRIPE_SECRET_KEY'));
-        $session = $request->get('session_id');
+        Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+        $session_id = $request->get('session_id');
 
         try {
-            $session = $stripe->checkout->sessions->retrieve($session);
+            $session = Session::retrieve($session_id);
             if (! $session) {
                 return Inertia::render('Checkout/Failure', ['error' => 'Unable to retrieve session']);
             }
 
-            $payment = Payment::query()->where(['session_id' => $session->id, 'status' => PaymentStatus::pending])->get();
+            $payment = Payment::query()->where(['session_id' => $session->id, 'status' => PaymentStatus::pending])->first();
+
             if (! $payment || $payment->status != PaymentStatus::pending->value) {
                 return Inertia::render('Checkout/Failure', ['error' => 'Unable to retrieve Payment']);
             }
+
             $payment->status = PaymentStatus::paid;
             $payment->update();
 
@@ -93,12 +102,13 @@ class CheckoutController extends Controller
             $order->status = OrderStatus::paid;
             $order->update();
 
-            $customer = $stripe->customer->retrieve($session->customer);
-            $line_items = $stripe->checkout->sessions->allLineItems($session, ['limit' => 5]);
+            $customer = Customer::retrieve($session->customer);
+
+            $line_items = Session::allLineItems($session->id, ['limit' => 5]);
 
             return Inertia::render('Checkout/Success', [
                 'customer' => $customer,
-                'order' => $line_items,
+                'order' => $line_items->data,
             ]);
         } catch (\Exception $e) {
             return Inertia::render('Checkout/Failure', ['error' => $e->getMessage()]);

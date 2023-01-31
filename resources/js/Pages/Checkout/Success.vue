@@ -19,9 +19,9 @@ const props = defineProps({
     <DefaultLayout>
         <Head title="Success" />
     <div class="bg-emerald-500 mx-auto py-2 px-3 text-white rounded">
-        <h1>{{ props.customer.customer_details.name }} Thank you for your order!</h1>
+        <h1>{{ props.customer.name }} Thank you for your order!</h1>
     </div>
-    <div v-for="product in order.data">
+    <div v-for="product in order">
         <p>{{  product.description }}</p>
         <span class="text-lg font-semibold">
             $<span>{{ product.price.unit_amount }}</span>
