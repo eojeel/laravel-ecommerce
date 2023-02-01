@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,15 +12,14 @@ class OrderController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $orders = Order::query()->where(['created_by' => $user->id])->paginate(10);
+        $orders = Order::query()->where(['created_by' => $user->id])->with('payment')->paginate(10);
 
         return inertia('Order/Index', [
-            'orders' => compact('orders')
+            'orders' => $orders,
         ]);
     }
 
     public function view()
     {
-
     }
 }

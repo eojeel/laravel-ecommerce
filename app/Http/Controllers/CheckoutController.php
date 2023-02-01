@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Stripe\Stripe;
-use Inertia\Inertia;
-use Stripe\Customer;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
+use App\Http\Helpers\Cart;
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Payment;
-use App\Models\CartItem;
-use Stripe\StripeClient;
-use App\Enums\OrderStatus;
-use App\Http\Helpers\Cart;
-use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Stripe\Checkout\Session;
+use Stripe\Customer;
+use Stripe\Stripe;
 
 class CheckoutController extends Controller
 {
@@ -57,8 +56,8 @@ class CheckoutController extends Controller
             'mode' => 'payment',
             'customer_creation' => 'always',
             'line_items' => $line_items,
-            'success_url' => route('cart.success', [], true).'?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('cart.failure', [], true),
+            'success_url' => route('checkout.success', [], true).'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('checkout.failure', [], true),
         ]);
 
         $paymentData = [
@@ -119,6 +118,13 @@ class CheckoutController extends Controller
     {
         dd($request->all());
 
-        return Inertia::render('Cart/Failure');
+        return Inertia::render('Checkout/Failure');
+    }
+
+    public function checkoutWithSessionId($id, Request $request)
+    {
+        $order = Order::query()->where(['id' => $id])->with('payment')->first();
+        Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+        $session = Session::retrieve($order->payment->session_id);
     }
 }

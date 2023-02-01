@@ -1,13 +1,13 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::middleware('guestOrVerified')->group(function () {
     Route::get('/', [ProductsController::class, 'index'])->name('index');
@@ -19,9 +19,6 @@ Route::middleware('guestOrVerified')->group(function () {
         Route::post('/add/{product:slug}', [CartController::class, 'store'])->name('.add');
         Route::post('/remove/{product:slug}', [CartController::class, 'destroy'])->name('.remove');
         Route::post('/update-quanity/{product:slug}', [CartController::class, 'update'])->name('.update-quanity');
-        Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('.checkout');
-        Route::get('/success', [CheckoutController::class, 'success'])->name('.success');
-        Route::get('/failure', [CheckoutController::class, 'failure'])->name('.failure');
     });
 });
 
@@ -31,6 +28,14 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::get('/Orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/Orders/{order}', [OrderController::class, 'view'])->name('orders.view');
+
+    /**
+     * Checkout Routes.
+     */
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('cart.checkout');
+    Route::get('/checkout/{order}', [CheckoutController::class, 'checkoutWithSessionId'])->name('cart.checkout-with-session-id');
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
 });
 
 /**

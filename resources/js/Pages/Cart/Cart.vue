@@ -26,7 +26,7 @@ function removeItemFromCart(product) {
 
 function checkout()
 {
-    axiosClient.post('/cart/checkout')
+    axiosClient.post('/checkout')
         .then(result => {
             window.location.href = result.data
         })
