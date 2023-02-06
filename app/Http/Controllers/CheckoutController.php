@@ -12,7 +12,10 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
+use Stripe\Exception\SignatureVerificationException;
 use Stripe\Stripe;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use UnexpectedValueException;
 
 class CheckoutController extends Controller
 {
@@ -88,21 +91,18 @@ class CheckoutController extends Controller
                 return Inertia::render('Checkout/Failure', ['error' => 'Unable to retrieve session']);
             }
 
-            $payment = Payment::query()->where(['session_id' => $session->id, 'status' => PaymentStatus::pending])->first();
-
-            if (! $payment || $payment->status != PaymentStatus::pending->value) {
-                return Inertia::render('Checkout/Failure', ['error' => 'Unable to retrieve Payment']);
+            $payment = Payment::query()
+                ->where(['session_id' => $session_id])
+                ->whereIn('status', [PaymentStatus::pending, PaymentStatus::paid])
+                ->first();
+            if (!$payment) {
+                throw new NotFoundHttpException();
+            }
+            if ($payment->status === PaymentStatus::pending->value) {
+                $this->updateOrderAndSession($payment);
             }
 
-            $payment->status = PaymentStatus::paid;
-            $payment->update();
-
-            $order = $payment->order;
-            $order->status = OrderStatus::paid;
-            $order->update();
-
             $customer = Customer::retrieve($session->customer);
-
             $line_items = Session::allLineItems($session->id, ['limit' => 5]);
 
             return Inertia::render('Checkout/Success', [
@@ -126,5 +126,60 @@ class CheckoutController extends Controller
         $order = Order::query()->where(['id' => $id])->with('payment')->first();
         Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
         $session = Session::retrieve($order->payment->session_id);
+    }
+
+    public function webhook()
+    {
+        Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+        $endpoint_secret = getenv('STRIPE_WEBHOOK_SECRET');
+
+        return response(332);
+
+        $payload = @file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sig_header,
+                $endpoint_secret
+            );
+        } catch(UnexpectedValueException $e) {
+            // Invalid payload
+            return response('', 400);
+        } catch(SignatureVerificationException $e) {
+            // Invalid signature
+            return response('', 400);
+        }
+
+                // Handle the event
+        switch ($event->type) {
+            case 'checkout.session.commpleted':
+                $paymentIntent = $event->data->object;
+                $sessionId = $paymentIntent['id'];
+
+                $payment = Payment::query()
+                    ->where(['session_id' => $sessionId, 'status' => PaymentStatus::pending])
+                    ->first();
+                if ($payment) {
+                    $this->updateOrderAndSession($payment);
+                }
+
+            default:
+                echo 'Received unknown event type '.$event->type;
+        }
+
+        return response('', 200);
+    }
+
+    private function updateOrderAndSession(Payment $payment)
+    {
+        $payment->status = PaymentStatus::paid;
+        $payment->update();
+
+        $order = $payment->order;
+        $order->status = OrderStatus::paid;
+        $order->update();
     }
 }

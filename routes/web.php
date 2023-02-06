@@ -49,4 +49,6 @@ Route::get('/products', function () {
     return Inertia::render('Products/Products');
 })->middleware(['auth', 'verified']);
 
+Route::post('/webhook/stripe', [CheckoutController::class, 'webhook'])->name('checkout.webhook');
+
 require __DIR__.'/auth.php';
