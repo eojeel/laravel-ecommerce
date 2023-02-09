@@ -95,7 +95,7 @@ class CheckoutController extends Controller
                 ->where(['session_id' => $session_id])
                 ->whereIn('status', [PaymentStatus::pending, PaymentStatus::paid])
                 ->first();
-            if (!$payment) {
+            if (! $payment) {
                 throw new NotFoundHttpException();
             }
             if ($payment->status === PaymentStatus::pending->value) {
@@ -109,6 +109,8 @@ class CheckoutController extends Controller
                 'customer' => $customer,
                 'order' => $line_items->data,
             ]);
+        } catch (NotFoundHttpException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return Inertia::render('Checkout/Failure', ['error' => $e->getMessage()]);
         }
@@ -126,6 +128,7 @@ class CheckoutController extends Controller
         $order = Order::query()->where(['id' => $id])->with('payment')->first();
         Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
         $session = Session::retrieve($order->payment->session_id);
+        return $session->url;
     }
 
     public function webhook()

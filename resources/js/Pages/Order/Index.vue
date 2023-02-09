@@ -1,6 +1,7 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axiosClient from "axios";
 
 const props = defineProps({
     orders: {
@@ -8,6 +9,15 @@ const props = defineProps({
         required: true,
     },
 })
+
+function checkout(orderId)
+{
+    axiosClient.post('/checkout/' + orderId)
+        .then(result => {
+            window.location.href = result.data
+        })
+}
+
 </script>
 
 <template>
@@ -56,7 +66,7 @@ const props = defineProps({
                                     </button>
 
                                 </div>
-                                <a v-if="order.status == 'unpaid' && order.payment" :href="route('cart.checkout-with-session-id', order.id)" class="btn-primary py-1 px-2 flex items-center">
+                                <a v-if="order.status == 'unpaid' && order.payment" @click="checkout(order.id)" class="btn-primary py-1 px-2 flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round"

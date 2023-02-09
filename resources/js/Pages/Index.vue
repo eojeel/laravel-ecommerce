@@ -19,8 +19,9 @@ const products = computed(() => props.products);
 </script>
 
 <template>
+        <DefaultLayout :cartItemsCount="cartItemsCount">
         <Head title="Welcome" />
-    <DefaultLayout :cartItemsCount="cartItemsCount">
+
     <!-- Product List -->
     <div class="grid gap-8 grig-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5">
         <!-- Product Item -->

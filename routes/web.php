@@ -33,7 +33,7 @@ Route::middleware('auth', 'verified')->group(function () {
      * Checkout Routes.
      */
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('cart.checkout');
-    Route::get('/checkout/{order}', [CheckoutController::class, 'checkoutWithSessionId'])->name('cart.checkout-with-session-id');
+    Route::post('/checkout/{order}', [CheckoutController::class, 'checkoutWithSessionId'])->name('cart.checkout-with-session-id');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
 });
