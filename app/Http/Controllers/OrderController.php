@@ -12,7 +12,7 @@ class OrderController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $orders = Order::query()->where(['created_by' => $user->id])->with('payment')->paginate(10);
+        $orders = Order::query()->where(['created_by' => $user->id])->with('payment')->get();
 
         return inertia('Order/Index', [
             'orders' => $orders,

@@ -27,7 +27,7 @@ const products = computed(() => props.products);
         <!-- Product Item -->
         <div v-for="product in products.data">
             <div
-          class="border border-1 border-gray-200 rounded-md hover:border-purple-600 transition-colors bg-white">
+          class="border border-1 border-gray-200 rounded-md hover:border-emerald-600 transition-colors bg-white">
                 <a :href="route('product.view', product)" class="block overflow-hidden aspect-w-3 aspect-h-2">
                     <img :src="product.image" :alt="product.title"
                         class="rounded-lg hover:scale-105 hover:rotate-1 transition-transform object-cover" />
@@ -53,7 +53,7 @@ const products = computed(() => props.products);
         <a v-for="(link, i) of products.links" :key="i" :disabled="!link.url" :href="link.url" aria-current="page"
             class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap" :class="[
                 link.active
-                    ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                    ? 'z-10 bg-emerald-50 border-emerald-500 text-emerald-600'
                     : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
                 i === 0 ? 'rounded-lg-md' : '',
                 i === products.links.length - 1 ? 'rounded-r-md' : ''

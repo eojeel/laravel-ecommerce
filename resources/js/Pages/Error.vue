@@ -29,7 +29,7 @@ const description = computed(() => {
 <template>
     <GuestLayout>
     <div class="flex justify-center items-center min-h-full h-full w-full min-w-full">
-        <div class="text-indigo-600 text-9xl px-8 font-bold border-r pb-8">
+        <div class="text-emerald-600 text-9xl px-8 font-bold border-r pb-8">
             {{ props.status }}
         </div>
         <div class="px-8">

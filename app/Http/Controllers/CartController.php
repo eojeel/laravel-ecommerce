@@ -141,7 +141,7 @@ class CartController extends Controller
             foreach ($cartItems as $key => $item) {
                 if ($item['product_id'] == $product->id) {
                     array_splice($cartItems, $key, 1);
-                    //unset($cartItems[$key]);
+                    unset($cartItems[$key]);
                     break;
                 }
             }

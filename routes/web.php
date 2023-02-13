@@ -39,6 +39,11 @@ Route::middleware('auth', 'verified')->group(function () {
 });
 
 /**
+ * Checkout Routes.
+ */
+Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('cart.checkout');
+
+/**
  * Admin Routes.
  */
 Route::get('/dashboard', function () {
@@ -49,6 +54,9 @@ Route::get('/products', function () {
     return Inertia::render('Products/Products');
 })->middleware(['auth', 'verified']);
 
+/**
+ * Stripe Webhook.
+ */
 Route::post('/webhook/stripe', [CheckoutController::class, 'webhook'])->name('checkout.webhook');
 
 require __DIR__.'/auth.php';

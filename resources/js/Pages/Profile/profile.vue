@@ -75,17 +75,17 @@ function profilesubmit() {
                                 <div class="mb-4 grid gap-1 md:grid-cols-2">
                                     <input placeholder="First Name" type="text" name="first_name"
                                         v-model="form.first_name"
-                                        class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half" />
+                                        class="ml-2 border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-half" />
                                     <input placeholder="Last Name" type="text" name="last_name" v-model="form.last_name"
-                                        class="ml-2 border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-half" />
+                                        class="ml-2 border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-half" />
                                 </div>
                                 <div class="mb-4">
                                     <input placeholder="Your Email" type="email" name="email" v-model="form.email"
-                                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                 </div>
                                 <div class="mb-4">
                                     <input placeholder="Your Phone" type="text" name="phone" v-model="form.phone"
-                                        class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                        class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                 </div>
                             </div>
                             <!--/ Profile Details -->
@@ -97,31 +97,31 @@ function profilesubmit() {
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Address 1" type="text" name="billing_address1"
                                             v-model="form.billing_address1"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Address 2" type="text" name="billing_address2"
                                             v-model="form.billing_address2"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="mb-4 flex-1">
                                         <input placeholder="City" type="text" name="billing_city"
                                             v-model="form.billing_city"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="County" type="text" name="billing_county"
                                             v-model="form.billing_county"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="mb-4 flex-1">
                                         <select type="text" name="billing_country_code"
                                             v-model="form.billing_country_code"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full">
                                             <option value="">Country</option>
                                             <option v-for="i in countries" :value="i.code"
                                                 :selected="form.shipping_country_code == i.code">{{ i.name }}</option>
@@ -130,7 +130,7 @@ function profilesubmit() {
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Postcode" type="text" name="billing_postcode"
                                             v-model="form.billing_postcode"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +142,7 @@ function profilesubmit() {
                                     <h2 class="text-xl">Shipping Address</h2>
                                     <div class="flex items-center">
                                         <input id="sameAsBillingAddress" type="checkbox"
-                                            class="mr-3 rounded border-gray-300 text-purple-500 focus:ring-purple-500" />
+                                            class="mr-3 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500" />
                                         <label for="sameAsBillingAddress">Same as Billing</label>
                                     </div>
                                 </div>
@@ -150,30 +150,30 @@ function profilesubmit() {
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Address 1" type="text" name="shipping_address1"
                                             v-model="form.shipping_address1"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Address 2" type="text" name="shipping_address2"
                                             v-model="form.shipping_address2"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="mb-4 flex-1">
                                         <input placeholder="City" type="text" name="shipping_city"
                                             v-model="form.shipping_city"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                     <div class="mb-4 flex-1">
                                         <input placeholder="County" type="text" name="shipping_country"
                                             v-model="form.shipping_county"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
                                     <div class="mb-4 flex-1">
                                         <select type="text" name="shipping_country" v-model="form.shipping_country_code"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full">
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full">
                                             <option value="">Country</option>
                                             <option v-for="i in countries" :value="i.code"
                                                 :selected="form.billing_country_code == i.code">{{ i.name }}</option>
@@ -182,7 +182,7 @@ function profilesubmit() {
                                     <div class="mb-4 flex-1">
                                         <input placeholder="Postcode" type="text" name="shipping_postcode"
                                             v-model="form.shipping_postcode"
-                                            class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                            class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                                     </div>
                                 </div>
                             </div>
@@ -209,17 +209,17 @@ function profilesubmit() {
                             <div class="mb-4">
                                 <input type="password" name="old_password" placeholder="Your Current password"
                                     v-model="profileForm.old_password"
-                                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                    class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                             </div>
                             <div class="mb-4">
                                 <input type="password" name="new_password" placeholder="New password"
                                 v-model="profileForm.new_password"
-                                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                    class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                             </div>
                             <div class="mb-4">
                                 <input type="password" name="new_password_confirmation" placeholder="Repeat new password"
                                     v-model="profileForm.new_password_confirmation"
-                                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full" />
+                                    class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full" />
                             </div>
                             <div>
                                 <button type="submit"

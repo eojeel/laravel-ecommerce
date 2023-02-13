@@ -38,10 +38,10 @@ function checkout(orderId)
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(order, index) of orders.data" class="border-b">
+                        <tr v-for="(order, index) of orders" class="border-b">
                             <td>
 
-                                <a href="/src/order-details.html" class="text-purple-600 hover:text-purple-500">
+                                <a href="/src/order-details.html" class="text-emerald-600 hover:text-emerald-500">
                                     #{{ order.id }}
                                 </a>
                             </td>
@@ -79,7 +79,7 @@ function checkout(orderId)
                     </tbody>
                 </table>
 
-                <nav v-if="orders.total > 0"
+                <!-- <nav v-if="orders.total > 0"
                         class="mt-2 relative z-0 inline-flex justify-center rounded-md shadown-sm -space-x-pn"
                         aria-label="Pagination">
                         <a v-for="(link, i) of orders.links" :key="i" :disabled="!link.url" :href="link.url"
@@ -87,12 +87,12 @@ function checkout(orderId)
                             class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
                             :class="[
                                 link.active
-                                    ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                                    ? 'z-10 bg-emerald-50 border-emerald-500 text-emerald-600'
                                     : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
                                 i === 0 ? 'rounded-lg-md' : '',
                                 i === orders.links.length - 1 ? 'rounded-r-md' : ''
                             ]" v-html="link.label"></a>
-                    </nav>
+                    </nav> -->
             </div>
         </div>
     </DefaultLayout>

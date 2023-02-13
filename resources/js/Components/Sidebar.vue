@@ -6,7 +6,7 @@ import { HomeIcon, UsersIcon, QueueListIcon, ChartBarIcon } from  '@heroicons/vu
 
 <template>
     <!-- sidebar --->
-    <div class="w-[200px] transition-all bg-indigo-700 text-white py-4 px-2">
+    <div class="w-[200px] transition-all bg-emerald-700 text-white py-4 px-2">
         <Link href="/dashboard" class="flex items-center py-1 px-2 rounded hover:bg-black/30 transition-colors mb-2">
               <span class="w-5 mr-2">
                  <HomeIcon />

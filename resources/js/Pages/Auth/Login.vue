@@ -37,14 +37,14 @@ const submit = () => {
         </h2>
         <p class="text-center text-gray-500 mb-6">
             or
-            <a :href="route('register')" class="text-sm text-purple-700 hover:text-purple-600">create new account</a>
+            <a :href="route('register')" class="text-sm text-emerald-700 hover:text-emerald-600">create new account</a>
         </p>
 
         <form @submit.prevent="submit" class="w-[400px] mx-auto p-6 my-16">
             <div>
                 <InputLabel for="email" value="Email" />
                 <TextInput id="email" type="email"
-                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
+                    class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full"
                     v-model="form.email" required autofocus autocomplete="username" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
@@ -52,7 +52,7 @@ const submit = () => {
             <div class="mt-4 mb-4">
                 <InputLabel for="password" value="Password" />
                 <TextInput id="password" type="password"
-                    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
+                    class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full"
                     v-model="form.password" required autocomplete="current-password" />
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
@@ -65,7 +65,7 @@ const submit = () => {
                         </label>
                     </div>
                     <Link v-if="canResetPassword" :href="route('password.request')"
-                        class="underline text-sm text-gray-600 hover:text-indigo-700">
+                        class="underline text-sm text-gray-600 hover:text-emerald-700">
                     Forgot your password?
                     </Link>
             </div>

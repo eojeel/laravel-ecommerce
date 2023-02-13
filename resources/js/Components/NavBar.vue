@@ -16,7 +16,7 @@ const emit = defineEmits(['toggle-sidebar']);
                 <MenuButton class="flex items-center text-gray-700">
                     <img src="https://randomuser.me/api/portraits/men/15.jpg" class="rounded-full w-10">
                     <div class="text-small px-2">{{ $page.props.auth.user.name }}</div>
-                    <ChevronDownIcon class="h-5 w-5 text-indigo-200 hover:text-indigo-100" aria-hidden="true" />
+                    <ChevronDownIcon class="h-5 w-5 text-emerald-200 hover:text-emerald-100" aria-hidden="true" />
                 </MenuButton>
             </div>
 
@@ -29,19 +29,19 @@ const emit = defineEmits(['toggle-sidebar']);
                     <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                         <button :class="[
-                            active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                            active ? 'bg-emerald-600 text-white' : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                         ]">
-                            <UserCircleIcon :active="active" class="mr-2 h-5 w-5 text-indigo-400" aria-hidden="true" />
+                            <UserCircleIcon :active="active" class="mr-2 h-5 w-5 text-emerald-400" aria-hidden="true" />
                             Profile
                         </button>
                         </MenuItem>
                         <MenuItem v-slot="{ active }">
                         <button :class="[
-                            active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                            active ? 'bg-emerald-600 text-white' : 'text-gray-900',
                             'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                         ]">
-                            <ArrowLeftOnRectangleIcon :active="active" class="mr-2 h-5 w-5 text-indigo-400"
+                            <ArrowLeftOnRectangleIcon :active="active" class="mr-2 h-5 w-5 text-emerald-400"
                                 aria-hidden="true" />
                             <DropdownLink :href="route('logout')" method="post" as="button">
                                 Log Out

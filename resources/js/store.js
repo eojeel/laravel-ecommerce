@@ -13,7 +13,6 @@ export const useStore = defineStore({
     mutations: mutations,
     actions: {
         showToast(state, message) {
-            console.log(message);
             this.toast.show = state;
             this.toast.message = message;
             setTimeout(() => {

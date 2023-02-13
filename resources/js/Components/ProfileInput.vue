@@ -46,7 +46,7 @@ export default {
     type="text"
     :name="name"
     v-model="model"
-    class="border-gray-300 focus:border-purple-500 focus:outline-none focus:ring-purple-500 rounded-md w-full"
+    class="border-gray-300 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 rounded-md w-full"
     />
     <p v-if="error">{{ error }}</p>
 </template>

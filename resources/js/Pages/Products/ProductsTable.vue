@@ -67,7 +67,7 @@ function editProduct(product)
                 <div class="flex items-center">
                     <span class="whitespace-nowrap mr-3">Per Page</span>
                     <select @change="getProduct(null)" v-model="perPage"
-                        class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
 
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -78,7 +78,7 @@ function editProduct(product)
                 </div>
                 <div>
                     <input v-model="search" @change="getProduct(null)"
-                        class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 placeholder-white"
+                        class="flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 placeholder-white"
                         placeholder="Type to Search Products">
                 </div>
             </div>
@@ -130,7 +130,7 @@ function editProduct(product)
                             class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
                             :class="[
                                 link.active
-                                    ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                                    ? 'z-10 bg-emerald-50 border-emerald-500 text-emerald-600'
                                     : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
                                 i === 0 ? 'rounded-lg-md' : '',
                                 i === products.links.length - 1 ? 'rounded-r-md' : ''

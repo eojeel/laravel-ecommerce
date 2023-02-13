@@ -9,6 +9,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
@@ -21,6 +22,10 @@ class CheckoutController extends Controller
 {
     public function checkout()
     {
+        if (! Auth::check()) {
+            return response('', 403);
+        }
+
         $user = request()->user();
 
         Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
@@ -128,6 +133,7 @@ class CheckoutController extends Controller
         $order = Order::query()->where(['id' => $id])->with('payment')->first();
         Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
         $session = Session::retrieve($order->payment->session_id);
+
         return $session->url;
     }
 

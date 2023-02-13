@@ -24,11 +24,13 @@ function removeItemFromCart(product) {
         })
 }
 
-function checkout()
-{
+function checkout() {
     axiosClient.post('/checkout')
         .then(result => {
             window.location.href = result.data
+        })
+        .catch(error => {
+            store.showToast(true, 'Please Login to Checkout!');
         })
 }
 
@@ -36,9 +38,10 @@ function checkout()
 
 <template>
     <DefaultLayout :cartItemsCount="cartItemsCount">
-    <Head title="product" />
 
-    <p x-text="id"></p>
+        <Head title="product" />
+
+        <p x-text="id"></p>
         <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
             <h1 class="text-3xl font-bold mb-6">Your Cart Items</h1>
 
@@ -64,12 +67,12 @@ function checkout()
                                         <div class="flex items-center">
                                             Qty:
                                             <input :product="product" type="number"
-                                                class="ml-3 py-1 border-gray-200 focus:border-purple-600 focus:ring-purple-600 w-16"
+                                                class="ml-3 py-1 border-gray-200 focus:border-emerald-600 focus:ring-emerald-600 w-16"
                                                 @change="store.changeQuantity(product, $event.target.value)"
                                                 :value="cartitems[product.id].quantity" />
                                         </div>
                                         <a @click.prevent="removeItemFromCart(product)" href="#"
-                                            class="text-purple-600 hover:text-purple-500">Remove</a>
+                                            class="text-emerald-600 hover:text-emerald-500">Remove</a>
                                     </div>
                                 </div>
                             </div>
@@ -91,12 +94,12 @@ function checkout()
                     </p>
 
                     <form @submit.prevent="checkout">
-                    <button type="submit" class="btn-primary w-full py-3 text-lg">
-                        Proceed to Checkout
-                    </button>
-                </form>
+                        <button type="submit" class="btn-primary w-full py-3 text-lg">
+                            Proceed to Checkout
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
-</DefaultLayout>
+    </DefaultLayout>
 </template>
