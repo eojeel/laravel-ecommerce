@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
-use App\Enums\PaymentStatus;
-use App\Http\Helpers\Cart;
-use App\Models\CartItem;
+use Stripe\Stripe;
+use Inertia\Inertia;
+use Stripe\Customer;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\CartItem;
+use App\Models\OrderItem;
+use App\Enums\OrderStatus;
+use App\Http\Helpers\Cart;
+use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Stripe\Checkout\Session;
-use Stripe\Customer;
-use Stripe\Exception\SignatureVerificationException;
-use Stripe\Stripe;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use UnexpectedValueException;
+use Illuminate\Support\Facades\Auth;
+use Stripe\Exception\SignatureVerificationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckoutController extends Controller
 {
@@ -32,6 +33,7 @@ class CheckoutController extends Controller
 
         [$products, $cartItems] = Cart::getProductsCartItems();
 
+        $orderItems = [];
         $line_items = [];
         $totalPrice = 0;
         foreach ($products as $product) {
@@ -48,6 +50,11 @@ class CheckoutController extends Controller
                 ],
                 'quantity' => $qty,
             ];
+            $orderItems[] = [
+                'product_id' => $product->id,
+                'quantity' => $qty,
+                'unit_price' => $product->price
+            ];
         }
 
         $orderData = [
@@ -58,6 +65,11 @@ class CheckoutController extends Controller
         ];
 
         $order = Order::create($orderData);
+
+        foreach ($orderItems as $orderItem) {
+            $orderItem['order_id'] = $order->id;
+            OrderItem::create($orderItem);
+        }
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -133,6 +145,12 @@ class CheckoutController extends Controller
         $order = Order::query()->where(['id' => $id])->with('payment')->first();
         Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
         $session = Session::retrieve($order->payment->session_id);
+
+        if($session->payment_status === 'paid')
+        {
+            self::updateOrderAndSession($order->payment);
+            return route('orders.index');
+        }
 
         return $session->url;
     }

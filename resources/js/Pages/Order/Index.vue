@@ -1,5 +1,6 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+import status from '@/Components/Status.vue';
 import { Head } from '@inertiajs/vue3';
 import axiosClient from "axios";
 
@@ -41,16 +42,13 @@ function checkout(orderId)
                         <tr v-for="(order, index) of orders" class="border-b">
                             <td>
 
-                                <a href="/src/order-details.html" class="text-emerald-600 hover:text-emerald-500">
+                                <a :href="route('orders.view', order)" class="text-emerald-600 hover:text-emerald-500">
                                     #{{ order.id }}
                                 </a>
                             </td>
                             <td>{{ order.created_at  }}</td>
                             <td>
-                                <span v-if="order.status == 'cancelled'" class="bg-red-500 text-white p-1 rounded">Cancelled</span>
-                                <span v-if="order.status == 'paid'" class="bg-emerald-500 text-white p-1 rounded">Paid</span>
-                                <span v-if="order.status == 'processing'" class="bg-orange-300 text-white p-1 rounded">Processing</span>
-                                <span v-if="order.status == 'unpaid'" class="bg-gray-500 text-white p-1 rounded">Unpaid</span>
+                                <status :orderstatus="order.status" />
                             </td>
                             <td>${{ order.total_price }}</td>
                             <td class="flex gap-3">

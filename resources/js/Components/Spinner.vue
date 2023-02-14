@@ -1,3 +1,12 @@
+<script setup>
+const {text} = defineProps({
+  text: {
+    type: String,
+    default: 'Please Wait...'
+  }
+})
+</script>
+
 <template>
     <div class="flex flex-col items-center py-8 mt-4">
       <svg
@@ -23,15 +32,3 @@
       <div class="mt-2">{{text}}</div>
     </div>
   </template>
-
-  <script setup>
-  const {text} = defineProps({
-    text: {
-      type: String,
-      default: 'Please Wait...'
-    }
-  })
-  </script>
-
-  <style scoped>
-  </style>
