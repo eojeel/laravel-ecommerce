@@ -9,7 +9,6 @@ export default {
         '$page.props.flash.message': function() {
             this.show = true;
         },
-        deep: true,
     },
 }
 </script>
