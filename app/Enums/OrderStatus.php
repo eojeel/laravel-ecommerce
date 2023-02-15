@@ -7,6 +7,9 @@ namespace App\Enums;
  */
 enum OrderStatus: string
 {
-    case unpaid = 'unpaid';
-    case paid = 'paid';
+    case Unpaid = 'unpaid';
+    case Paid = 'paid';
+    case Cancelled = 'cancelled';
+    case Shipped = 'shipped';
+    case Completed = 'completed';
 }

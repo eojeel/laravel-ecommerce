@@ -18,7 +18,6 @@ use InvalidArgumentException;
 class ProfileController extends Controller
 {
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @throws BindingResolutionException
@@ -46,7 +45,6 @@ class ProfileController extends Controller
     /**
      * Undocumented function
      *
-     * @param  ProfileRequest  $request
      * @return void
      */
     public function update(ProfileRequest $request)
@@ -87,7 +85,6 @@ class ProfileController extends Controller
     /**
      * Undocumented function
      *
-     * @param  PasswordUpdateRequest  $request
      * @return void
      */
     public function updatePassword(PasswordUpdateRequest $request)

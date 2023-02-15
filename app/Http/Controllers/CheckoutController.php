@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Stripe\Stripe;
-use Inertia\Inertia;
-use Stripe\Customer;
-use App\Models\Order;
-use App\Models\Payment;
-use App\Models\CartItem;
-use App\Models\OrderItem;
 use App\Enums\OrderStatus;
-use App\Http\Helpers\Cart;
 use App\Enums\PaymentStatus;
+use App\Http\Helpers\Cart;
+use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Payment;
 use Illuminate\Http\Request;
-use Stripe\Checkout\Session;
-use UnexpectedValueException;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Stripe\Checkout\Session;
+use Stripe\Customer;
 use Stripe\Exception\SignatureVerificationException;
+use Stripe\Stripe;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use UnexpectedValueException;
 
 class CheckoutController extends Controller
 {
@@ -53,13 +53,13 @@ class CheckoutController extends Controller
             $orderItems[] = [
                 'product_id' => $product->id,
                 'quantity' => $qty,
-                'unit_price' => $product->price
+                'unit_price' => $product->price,
             ];
         }
 
         $orderData = [
             'total_price' => $totalPrice,
-            'status' => OrderStatus::unpaid,
+            'status' => OrderStatus::Unpaid,
             'created_by' => $user->id,
             'updated_by' => $user->id,
         ];
@@ -146,9 +146,9 @@ class CheckoutController extends Controller
         Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
         $session = Session::retrieve($order->payment->session_id);
 
-        if($session->payment_status === 'paid')
-        {
+        if ($session->payment_status === 'paid') {
             self::updateOrderAndSession($order->payment);
+
             return route('orders.index');
         }
 
@@ -206,7 +206,7 @@ class CheckoutController extends Controller
         $payment->update();
 
         $order = $payment->order;
-        $order->status = OrderStatus::paid;
+        $order->status = OrderStatus::Paid->value;
         $order->update();
     }
 }

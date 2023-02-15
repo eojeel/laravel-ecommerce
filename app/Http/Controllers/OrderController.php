@@ -13,7 +13,7 @@ class OrderController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $orders = Order::query()->where(['created_by' => $user->id])->with('payment')->get();
+        $orders = Order::query()->where(['created_by' => $user->id])->orderBy('created_at', 'desc')->get();
 
         return inertia('Order/Index', [
             'orders' => $orders,
@@ -25,15 +25,12 @@ class OrderController extends Controller
         /** @var User $user */
         $user = request()->user();
 
-        if($order->created_by !== $user->id)
-        {
+        if ($order->created_by !== $user->id) {
             throw new UnauthorizedException('You are not authorized to view this order');
         }
 
-        dd($order);
-
         return inertia('Order/View', [
-            'order' => $order
+            'order' => $order,
         ]);
     }
 }

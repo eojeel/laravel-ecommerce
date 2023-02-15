@@ -1,5 +1,4 @@
 <script setup>
-import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import status from '@/Components/Status.vue';
 import { Head } from '@inertiajs/vue3';
 import axiosClient from "axios";
@@ -22,7 +21,6 @@ function checkout(orderId)
 </script>
 
 <template>
-    <DefaultLayout>
         <Head title="Orders" />
         <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
             <h1 class="text-3xl font-bold mb-6">My Orders</h1>
@@ -39,7 +37,7 @@ function checkout(orderId)
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(order, index) of orders" class="border-b">
+                        <tr v-if="orders.length > 0" v-for="(order, index) of orders" class="border-b">
                             <td>
 
                                 <a :href="route('orders.view', order)" class="text-emerald-600 hover:text-emerald-500">
@@ -74,6 +72,9 @@ function checkout(orderId)
                                 </a>
                             </td>
                         </tr>
+                        <tr v-else>
+                            <td colspan="5" class="text-center">No orders found</td>
+                            </tr>
                     </tbody>
                 </table>
 
@@ -93,5 +94,4 @@ function checkout(orderId)
                     </nav> -->
             </div>
         </div>
-    </DefaultLayout>
 </template>
