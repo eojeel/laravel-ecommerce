@@ -50,7 +50,7 @@ store.cartCount(props.cartItemsCount);
                         </svg>
                         Cart
                         <small v-if="store.CartCount"
-                            class="absolute z-[100] top-0 -right-3 py-[2px] px-[8px] rounded-full bg-red-500">{{
+                            class="absolute z-[100] top-2 -right-3 py-[2px] px-[8px] rounded-full bg-red-500">{{
                                 store.CartCount
                             }}</small>
                     </a>
