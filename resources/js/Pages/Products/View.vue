@@ -24,7 +24,6 @@ function activateReadMore()
 
 <template>
     <DefaultLayout>
-
         <Head title="product" />
         <p x-text="id"></p>
 

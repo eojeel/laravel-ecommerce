@@ -27,7 +27,7 @@ class CartController extends Controller
             $product['updateQuanityUrl'] = route('cart.update-quanity', $product);
         }
 
-        return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total, 'cartItemsCount' => Cart::getCartItemsCount()]);
+        return Inertia::render('Cart/Cart', ['cartitems' => $cartItems, 'products' => $products, 'total' => $total]);
     }
 
     /**

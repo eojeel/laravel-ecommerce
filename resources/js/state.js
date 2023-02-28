@@ -13,5 +13,5 @@ export default {
         show: false,
         message: ''
     },
-    CartCount : null,
+    CartItemsCount: 0,
   }

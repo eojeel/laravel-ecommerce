@@ -8,19 +8,23 @@ import { computed } from 'vue';
 const store = useStore();
 
 const props = defineProps({
-    products: Object,
-    cartItemsCount: Number
+    products: Object
 })
+
+
 
 store.cartCount(props.cartItemsCount);
 
 const products = computed(() => props.products);
 
 </script>
+<script>
+export default { layout: DefaultLayout }
+</script>
 
 <template>
-        <DefaultLayout :cartItemsCount="cartItemsCount">
-        <Head title="Welcome" />
+    <Head title="Welcome" />
+
 
     <!-- Product List -->
     <div class="grid gap-8 grig-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-5">
@@ -59,6 +63,4 @@ const products = computed(() => props.products);
                 i === products.links.length - 1 ? 'rounded-r-md' : ''
             ]" v-html="link.label"></a>
     </nav>
-</DefaultLayout>
-
 </template>

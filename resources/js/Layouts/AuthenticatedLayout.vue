@@ -1,5 +1,4 @@
 <script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { ref, onMounted, onUnmounted } from "vue";
 import Sidebar from "@/Components/Sidebar.vue";
 import NavBar from "@/Components/NavBar.vue";

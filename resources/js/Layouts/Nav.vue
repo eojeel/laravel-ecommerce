@@ -1,7 +1,8 @@
 <script setup>
 import { useStore } from '@/store';
+import { storeToRefs } from 'pinia'
 import { Link, usePage } from '@inertiajs/vue3';
-import { ref, computed } from "vue";
+import {ref, computed, watch} from "vue";
 import ResponsiveNav from '@/Layouts/ResponsiveNav.vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DropdownLink from '../Components/DropdownLink.vue'
@@ -9,6 +10,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Toast from "@/Components/Toast.vue";
 
 const store = useStore();
+const { CartItemsCount } = storeToRefs(store);
 
 const emit = defineEmits(['toggle-sidebar']);
 const mobileMenuOpen = ref(false);
@@ -18,12 +20,20 @@ function toggleResponsieNav() {
 }
 
 const props = defineProps({
-    mobileMenuOpen: Boolean,
-    cartItemsCount: Number
+    mobileMenuOpen: Boolean
 })
-const user = computed(() => usePage().props.auth.user)
+const user = computed(() => usePage().props.user)
 
-store.cartCount(props.cartItemsCount);
+let count = computed(() => usePage().props.cartCount)
+
+const cartCount = ref(count);
+
+watch(CartItemsCount, (value) => {
+    cartCount.value = value;
+})
+
+
+
 </script>
 
 <template>
@@ -49,9 +59,9 @@ store.cartCount(props.cartItemsCount);
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         Cart
-                        <small v-if="store.CartCount"
+                        <small v-if="cartCount"
                             class="absolute z-[100] top-2 -right-3 py-[2px] px-[8px] rounded-full bg-red-500">{{
-                                store.CartCount
+                                cartCount
                             }}</small>
                     </a>
                 </li>

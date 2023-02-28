@@ -2,17 +2,12 @@
 import Nav from "@/Layouts/Nav.vue";
 import Flash from "@/Components/Flash.vue";
 
-const props = defineProps({
-    cartItemsCount: Number
-})
 </script>
 
 <template>
-    <Nav :cartItemsCount="cartItemsCount" />
-    <div>
+        <Nav/>
         <flash />
-        <div class="p-5">
+        <main class="p-5">
             <slot />
-        </div>
-    </div>
+        </main>
 </template>

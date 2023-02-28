@@ -12,7 +12,6 @@ class ProductsController extends Controller
     {
         return Inertia::render('Index', [
             'products' => Product::paginate(8),
-            'cartItemsCount' => Cart::getCartItemsCount(),
         ]);
     }
 }

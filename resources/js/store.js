@@ -89,28 +89,25 @@ export const useStore = defineStore({
         deleteProduct(id) {
             return axiosClient.delete(`/api/products/${id}`)
         },
-        deleteProduct(id) {
-            return axiosClient.delete(`/api/products/${id}`)
-        },
         addToCart(product, uri) {
             return axiosClient.post(uri, 1)
                 .then(result => {
                     this.showToast(true, "The item was added into the cart")
-                    this.CartCount++;
+                    this.CartItemsCount++;
                 })
                 .catch(response => {
                     console.log(response);
                 })
         },
         cartCount(cartItemsCount) {
-            if (cartItemsCount > 0 && !this.CartCount) {
-                this.CartCount = cartItemsCount;
+            if (cartItemsCount > 0 && !this.CartItemsCount) {
+                this.CartItemsCount = cartItemsCount;
             }
         },
         changeQuantity(product, qty) {
             axiosClient.post(product.updateQuanityUrl, { quantity: qty })
                 .then(result => {
-                    this.CartCount = result.data.count;
+                    this.CartItemsCount = result.data.count;
                     this.showToast(true, "The item quantity was updated");
                 })
         },

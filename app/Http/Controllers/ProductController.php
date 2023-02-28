@@ -11,8 +11,7 @@ class ProductController extends Controller
     public function view(Product $product)
     {
         return Inertia::render('Products/View', [
-            'product' => $product,
-            'cartItemsCount' => Cart::getCartItemsCount(),
+            'product' => $product
         ]);
     }
 }
