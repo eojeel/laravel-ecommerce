@@ -16,12 +16,21 @@ import { HomeIcon, UsersIcon, QueueListIcon, ChartBarIcon } from  '@heroicons/vu
             </span>
         </Link>
 
-        <Link href="/products" class="flex items-center py-1 px-2 rounded hover:bg-black/30 transition-colors mb-2">
+        <Link href="/dashboard/products" class="flex items-center py-1 px-2 rounded hover:bg-black/30 transition-colors mb-2">
               <span class="w-5 mr-2">
                  <UsersIcon />
               </span>
             <span class="text-sm font-light">
                  Products
+            </span>
+        </Link>
+
+        <Link href="/dashboard/orders" class="flex items-center py-1 px-2 rounded hover:bg-black/30 transition-colors mb-2">
+              <span class="w-5 mr-2">
+                 <UsersIcon />
+              </span>
+            <span class="text-sm font-light">
+                 Orders
             </span>
         </Link>
 

@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import ProductsTable from '@/Pages/Products/ProductsTable.vue'
-import ProductsModal from '@/Pages/Products/ProductsModal.vue'
+import ProductsTable from '@/Pages/Admin/Products/ProductsTable.vue'
+import ProductsModal from '@/Pages/Admin/Products/ProductsModal.vue'
 
 const EMPTY_OBJECT = {
     id: '',

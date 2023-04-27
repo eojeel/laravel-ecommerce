@@ -172,10 +172,10 @@ class CheckoutController extends Controller
                 $sig_header,
                 $endpoint_secret
             );
-        } catch(UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             // Invalid payload
             return response('', 400);
-        } catch(SignatureVerificationException $e) {
+        } catch (SignatureVerificationException $e) {
             // Invalid signature
             return response('', 400);
         }

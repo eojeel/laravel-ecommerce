@@ -6,7 +6,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,7 +13,6 @@ Route::middleware('guestOrVerified')->group(function () {
     Route::get('/', [ProductsController::class, 'index'])->name('index');
 
     Route::get('/product/{product:slug}', [ProductController::class, 'view'])->name('product.view');
-
 
     Route::prefix('/cart')->name('cart')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('.index');
@@ -51,14 +49,17 @@ Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('cart.ch
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
-
-    Route::get('/products', function () {
-        return Inertia::render('Products/Products');
     });
+
+    Route::get('/dashboard/products', function () {
+        return Inertia::render('Admin/Products/Products');
+    });
+
+    Route::get('/dashboard/orders', function () {
+        return Inertia::render('Admin/Orders/Index');
+    });
+
 });
-
-
 
 /**
  * Stripe Webhook.

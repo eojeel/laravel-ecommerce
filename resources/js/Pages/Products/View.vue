@@ -2,7 +2,7 @@
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { useStore } from '@/store';
 import { Head } from '@inertiajs/vue3';
-import { computed, reactive } from 'vue';
+import { computed } from 'vue';
 
 const store = useStore();
 
@@ -11,19 +11,18 @@ const props = defineProps({
     cartItemsCount: Number,
 });
 
-const summary = true;
 store.cartCount(props.cartItemsCount);
 
 const products = computed(() => props.products);
 
-function activateReadMore()
-{
-    this.summary = false;
-}
+let summary = false;
 </script>
-
 <template>
-    <DefaultLayout>
+    <button @click="awesome = !awesome">Toggle</button>
+
+    <h1 v-if="awesome">Vue is awesome!</h1>
+    <h1 v-else>Oh no 😢</h1>
+
         <Head title="product" />
         <p x-text="id"></p>
 
@@ -65,21 +64,17 @@ function activateReadMore()
 
                         <details class="group relative mt-4 [&_summary::-webkit-details-marker]:hidden">
                             <summary class="block">
-                                <div>
-
-                                    <span v-if="summary">{{product.description.slice(0, 200)}}
-                                    <a @click="activateReadMore()"
-                                        class="mt-4 text-sm font-medium underline cursor-pointer group-open:absolute group-open:bottom-0 group-open:left-0 group-open:mt-0">
-                                        Read more</a>
+                                    <span v-if="!summary">
+                                        {{product.description.slice(0, 200)}}
                                     </span>
-                                    <div v-if="!summary">
+                                    <span v-else>
                                     <p v-html="product.description"></p>
-                                    </div>
-
-                                </div>
+                                    </span>
+                                    <a @click="summary = !summary"
+                                       class="mt-4 text-sm font-medium underline cursor-pointer group-open:absolute group-open:bottom-0 group-open:left-0 group-open:mt-0">
+                                        Read less</a>
                             </summary>
                         </details>
-
                         <div class="mt-8">
                             <button @click="store.addToCart(product, route('cart.add', product))"
                                 class="btn-primary py-4 text-lg flex justify-center min-w-0 w-full mb-6">
@@ -95,5 +90,4 @@ function activateReadMore()
                 </div>
             </div>
         </section>
-    </DefaultLayout>
 </template>

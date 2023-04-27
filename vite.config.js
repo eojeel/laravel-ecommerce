@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import inertiaLayout from "momentum-layout"
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
@@ -14,6 +15,7 @@ export default defineConfig({
             input: 'resources/js/app.js',
             refresh: true,
         }),
+        inertiaLayout(),
         vue({
             template: {
                 transformAssetUrls: {

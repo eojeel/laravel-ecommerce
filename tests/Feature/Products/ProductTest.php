@@ -15,7 +15,7 @@ class ProductTest extends TestCase
         $response = $this->get('/api/products');
 
         $response->assertStatus(200)
-        ->json('data');
+            ->json('data');
     }
 
     public function test_a_user_can_view_single_product()
