@@ -17,11 +17,11 @@ const sortDirection = ref('desc');
 const emit = defineEmits(['display-modal']);
 
 onMounted(() => {
-    store.getOrderss();
+    store.getOrders();
 })
 
 function getOrders(url = null) {
-    store.getOrderss(
+    store.getOrders(
     url,
     search.value,
     perPage.value,
@@ -34,7 +34,7 @@ function getForPage(e, link) {
     {
         return;
     }
-    store.getOrderss(link.url)
+    store.getOrders(link.url)
 }
 
 function sortorders(field)
@@ -86,10 +86,10 @@ function editorder(order)
                     <thead>
                         <tr>
                             <TableHeader field="id" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('id')">ID</TableHeader>
-                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection">Image</TableHeader>
-                            <TableHeader field="title" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('title')">Title</TableHeader>
+                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection">Customer</TableHeader>
+                            <TableHeader field="status" :sort-field="sortField" :sort-direction="sortDirection">Status</TableHeader>
+                            <TableHeader field="created_at" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('created_at')">Date</TableHeader>
                             <TableHeader field="price" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('price')">Price</TableHeader>
-                            <TableHeader field="updated_at" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('updated_at')">Last Updated At</TableHeader>
                             <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection">Actions</TableHeader>
                         </tr>
                     </thead>
@@ -103,14 +103,12 @@ function editorder(order)
                     <tbody v-else>
                         <tr v-for="(order, index) of orders.data" class="animate-fade-in-down" :style="{'animation-delay': '${index*0.0.5}s'}">
                             <td class="border-b p-2">{{ order.id }}</td>
+                            <td claSS="border-b p-2">{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
                             <td class="border-b p-2">
                                 <span>{{ order.status }}</span>
                             </td>
-                            <td class="border-b p-2 m-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
-                                    {{ order.created_at }}
-                            }}</td>
+                            <td class="border-b p-2">{{ order.created_at }}</td>
                             <td class="border-b p-2">{{ order.total_price }}</td>
-                            <td class="border-b p-2">{{ order.number_of_items }}</td>
                             <td>
                                 <TableMenu v-bind:order="order" @edit-order="editorder"/>
                             </td>
