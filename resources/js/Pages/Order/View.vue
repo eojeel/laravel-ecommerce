@@ -10,7 +10,6 @@ const props = defineProps({
 
 <template>
     <DefaultLayout>
-
         <Head title="View Order" />
         <main class="p-5">
             <div class="container lg:w-2/3 xl:w-2/3 mx-auto">

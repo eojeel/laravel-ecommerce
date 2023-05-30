@@ -90,7 +90,7 @@ function editorder(order)
                             <TableHeader field="status" :sort-field="sortField" :sort-direction="sortDirection">Status</TableHeader>
                             <TableHeader field="created_at" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('created_at')">Date</TableHeader>
                             <TableHeader field="price" :sort-field="sortField" :sort-direction="sortDirection" @click="sortorders('price')">Price</TableHeader>
-                            <TableHeader field="" :sort-field="sortField" :sort-direction="sortDirection">Actions</TableHeader>
+                            <TableHeader field="">Actions</TableHeader>
                         </tr>
                     </thead>
                     <tbody v-if="orders.loading">
@@ -101,14 +101,14 @@ function editorder(order)
                         </tr>
                     </tbody>
                     <tbody v-else>
-                        <tr v-for="(order, index) of orders.data" class="animate-fade-in-down" :style="{'animation-delay': '${index*0.0.5}s'}">
-                            <td class="border-b p-2">{{ order.id }}</td>
-                            <td claSS="border-b p-2">{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
-                            <td class="border-b p-2">
+                        <tr v-for="(order, index) of orders.data" class="animate-fade-in-down border-b" :style="{'animation-delay': '${index*0.0.5}s'}">
+                            <td class="p-2">{{ order.id }}</td>
+                            <td class="p-2">{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+                            <td class="p-2">
                                 <span>{{ order.status }}</span>
                             </td>
-                            <td class="border-b p-2">{{ order.created_at }}</td>
-                            <td class="border-b p-2">{{ order.total_price }}</td>
+                            <td class="p-2">{{ order.created_at }}</td>
+                            <td class="p-2">{{ order.total_price }}</td>
                             <td>
                                 <TableMenu v-bind:order="order" @edit-order="editorder"/>
                             </td>

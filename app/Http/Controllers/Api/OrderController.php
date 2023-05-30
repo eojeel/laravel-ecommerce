@@ -10,7 +10,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $perPatge = request('per_page', 50);
+        $perPage = request('per_page', 50);
         $search = request('search', '');
         $sortField = request('sort_field', 'updated_at');
         $sortDirection = request('sort_direction', 'desc');
@@ -18,7 +18,7 @@ class OrderController extends Controller
         $query = Order::query()
             ->where('id', 'like', "%{$search}%")
             ->orderBy($sortField, $sortDirection)
-            ->paginate($perPatge);
+            ->paginate($perPage);
 
         return OrderListResource::collection($query);
     }

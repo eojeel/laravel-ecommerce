@@ -19,9 +19,13 @@ class OrderListResource extends JsonResource
             'id' => $this->id,
             'status' => $this->status,
             'total_price' => $this->total_price,
-            'user_id' => new UserResource($this->user),
-            'customer' => new CustomerResource($this->user),
+            'user_id' => new UserListResource($this->user),
             'number_of_items' => $this->items()->count(),
+            'customer' => [
+                'id' => $this->user->id,
+                'first_name' => $this->user->customer->first_name,
+                'last_name' => $this->user->customer->last_name,
+            ],
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),
         ];
