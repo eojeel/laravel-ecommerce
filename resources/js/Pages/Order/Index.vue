@@ -1,6 +1,5 @@
 <script setup>
 import status from '@/Components/Status.vue';
-import DefaultLayout from "@/Layouts/DefaultLayout.vue";
 import { Head } from '@inertiajs/vue3';
 import axiosClient from "axios";
 
@@ -18,12 +17,13 @@ function checkout(orderId)
             window.location.href = result.data
         })
 }
-
 </script>
-
+<script>
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+export default { layout: DefaultLayout }
+</script>
 <template>
         <Head title="Orders" />
-    <DefaultLayout />
         <div class="container lg:w-2/3 xl:w-2/3 mx-auto">
             <h1 class="text-3xl font-bold mb-6">My Orders</h1>
 

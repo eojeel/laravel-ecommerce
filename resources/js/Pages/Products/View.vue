@@ -1,5 +1,8 @@
-<script setup>
+<script>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+export default { layout: DefaultLayout }
+</script>
+<script setup>
 import { useStore } from '@/store';
 import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -18,12 +21,7 @@ const products = computed(() => props.products);
 let summary = false;
 </script>
 <template>
-    <button @click="awesome = !awesome">Toggle</button>
-
-    <h1 v-if="awesome">Vue is awesome!</h1>
-    <h1 v-else>Oh no 😢</h1>
-
-        <Head title="product" />
+        <Head title="product"/>
         <p x-text="id"></p>
 
         <section>
