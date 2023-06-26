@@ -22,6 +22,6 @@ class ProductTest extends TestCase
     {
         $product = Product::factory()->create();
 
-        $response = $this->get('/api/procucts/');
+        $response = $this->get('/api/products/');
     }
 }
