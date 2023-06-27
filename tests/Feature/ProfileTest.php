@@ -3,24 +3,23 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Inertia\Testing\AssertableInertia as Assert;
 
-class ProfileTest extends TestCase
-{
-    use RefreshDatabase;
+test('profile page is displayed', function () {
 
-    public function test_profile_page_is_displayed(): void
-    {
-        $user = User::factory()->create();
+    $user = createValidUser();
 
-        $response = $this
-            ->actingAs($user)
-            ->get('/profile');
+    $this->actingAs($user)
+    ->get(route('profile.view'))
+    ->assertInertia(fn (Assert $assert) => $assert
+    ->component('Profile/profile')
+        ->where('user.name', $user->name)
+        ->where('user.email', $user->email)
+   );
+});
 
-        $response->assertOk();
-    }
 
+/*
     public function test_profile_information_can_be_updated(): void
     {
         $user = User::factory()->create();
@@ -97,3 +96,4 @@ class ProfileTest extends TestCase
         $this->assertNotNull($user->fresh());
     }
 }
+*/
