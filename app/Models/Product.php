@@ -23,8 +23,8 @@ class Product extends Model
             ->saveSlugsTo('slug');
     }
 
-     public function getRouteKeyName()
-     {
-         return 'slug';
-     }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

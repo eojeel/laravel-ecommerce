@@ -7,17 +7,36 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 test('profile page is displayed', function () {
 
+    $this->withoutExceptionHandling();
     $user = createValidUser();
 
     $this->actingAs($user)
-    ->get(route('profile.view'))
-    ->assertInertia(fn (Assert $assert) => $assert
-    ->component('Profile/profile')
-        ->where('user.name', $user->name)
-        ->where('user.email', $user->email)
-   );
+        ->get(route('profile.view'))
+        ->assertInertia(fn (Assert $assert) => $assert
+            ->component('Profile/profile')
+            ->where('user.name', $user->name)
+            ->where('user.email', $user->email)
+        );
 });
 
+test('can update the profile information', function () {
+
+    $user = createValidUser();
+
+    $response = $this
+        ->actingAs($user)
+        ->post('/profile');
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect('/profile');
+
+    $user->refresh();
+
+    expect($user)->name->toBe('Test User');
+    expect($user)->email->toBe('test@example.com');
+    expect($user)->email_verified_at->toBeNull();
+});
 
 /*
     public function test_profile_information_can_be_updated(): void
