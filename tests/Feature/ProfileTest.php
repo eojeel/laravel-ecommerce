@@ -3,7 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\CountrySeeder;
 use Inertia\Testing\AssertableInertia as Assert;
+
+beforeEach(function () {
+    $this->seed(CountrySeeder::class);
+});
 
 test('profile page is displayed', function () {
 

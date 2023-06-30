@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
+            $table->id()->name('user_id');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->nullable();
@@ -24,9 +24,9 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
         });
 
-        Schema::table('customers', function (Blueprint $table) {
-            $table->renameColumn('id', 'user_id');
-        });
+        // Schema::table('customers', function (Blueprint $table) {
+        //     $table->renameColumn('id', 'user_id');
+        // });
     }
 
     /**
