@@ -60,7 +60,7 @@ class ProfileRequest extends FormRequest
             'shipping_city' => 'city',
             'shipping_county' => 'county',
             'shipping_postcode' => 'postcode',
-            'shipping_country_code' =>  ['required', 'exists:countries,code'],
+            'shipping_country_code' => ['required', 'exists:countries,code'],
         ];
     }
 }
