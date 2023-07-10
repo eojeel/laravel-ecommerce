@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\AddressType;
-use App\Http\Requests\PasswordUpdateRequest;
-use App\Http\Requests\ProfileRequest;
-use App\Models\Country;
-use App\Models\CustomerAddress;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Country;
+use App\Enums\AddressType;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use InvalidArgumentException;
+use App\Models\CustomerAddress;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\PasswordUpdateRequest;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class ProfileController extends Controller
 {

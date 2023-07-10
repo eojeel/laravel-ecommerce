@@ -39,7 +39,6 @@ const profileForm = useForm({
 
 function mainsubmit() {
     router.post('/profile', form, {
-        errorBag: 'profile',
     })
 }
 

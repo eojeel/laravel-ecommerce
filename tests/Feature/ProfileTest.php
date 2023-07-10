@@ -26,8 +26,6 @@ test('profile page is displayed', function () {
 
 test('can update the profile information', function () {
 
-    $this->withoutExceptionHandling();
-
     $user = createValidUser();
 
     $this->actingAs($user)
@@ -51,10 +49,10 @@ test('can update the profile information', function () {
             'billing_postcode' => fake()->postcode(),
             'billing_county' => fake()->country(),
             'shipping_country_code' => 'usa',
-        ])->assertRedirect('/profile');
+        ])->assertRedirect(route('profile.view'));
 
     $this->actingAs($user)
-        ->get('/profile')
+        ->get(route('profile.view'))
         ->assertInertia(fn (Assert $assert) => $assert
             ->component('Profile/profile')
             ->where('user.name', $user->name)
@@ -62,46 +60,24 @@ test('can update the profile information', function () {
         );
 });
 
+test('email verification status is unchanged when the email address is unchanged', function() {
+
+    $this->withoutExceptionHandling();
+    $user = createValidUser();
+
+    $this->actingAs($user)
+    ->post(route('profile.update'), [
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'email' => $user->email,
+    ])
+    ->assertRedirect(route('profile.view'));
+
+    dd(($user->refresh()->email_verified_at));
+    //expect($user->refresh()->email_verified_at)->not->toBeNull();
+});
 /*
-    public function test_profile_information_can_be_updated(): void
-    {
-        $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $user->refresh();
-
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
-        $this->assertNull($user->email_verified_at);
-    }
-
-    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $this->assertNotNull($user->refresh()->email_verified_at);
-    }
 
     public function test_user_can_delete_their_account(): void
     {
