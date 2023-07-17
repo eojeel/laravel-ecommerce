@@ -25,6 +25,7 @@ Route::middleware('guestOrVerified')->group(function () {
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'view'])->name('profile.view');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.delete');
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::get('/Orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/Orders/{order}', [OrderController::class, 'view'])->name('orders.view');

@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AddressType;
+use App\Http\Requests\PasswordUpdateRequest;
+use App\Http\Requests\ProfileRequest;
+use App\Models\Country;
+use App\Models\CustomerAddress;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Country;
-use App\Enums\AddressType;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use InvalidArgumentException;
-use App\Models\CustomerAddress;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\ProfileRequest;
-use App\Http\Requests\PasswordUpdateRequest;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
 class ProfileController extends Controller
 {
@@ -98,5 +99,26 @@ class ProfileController extends Controller
         $user->save();
 
         return redirect()->route('profile.view')->with('message', 'Your password was successfully updated.');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function destroy(Request $request)
+    {
+
+        $user = request()->user();
+
+        if (! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => ['The provided password does not match our records.'],
+            ]);
+        }
+
+        $user->delete();
+
+        return redirect()->route('index')->with('message', 'Your account was successfully deleted.');
     }
 }
